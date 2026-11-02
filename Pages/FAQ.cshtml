@@ -1,0 +1,49 @@
+@page "/faq"
+@model MMA.Pages.FAQModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Câu Hỏi Thường Gặp (Razor Page) - MMA Sài Gòn";
+}
+
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Câu Hỏi Thường Gặp</h1>
+        <div class="breadcrumb-area">
+            <a href="/">MMA Sài Gòn</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">Razor Page FAQ</span>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding bg-dark text-white">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 uppercase tracking-wider mb-2">ASP.NET Core Razor Pages Integration</span>
+            <h2 class="section-heading-title">Giải Đáp Thắc Mắc Thường Gặp</h2>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion accordion-flush" id="faqAccordion">
+                    @for (int i = 0; i < Model.FAQList.Count; i++)
+                    {
+                        var item = Model.FAQList[i];
+                        <div class="accordion-item bg-black text-white border-secondary border-opacity-25 rounded-3 mb-3 overflow-hidden">
+                            <h2 class="accordion-header" id="heading-@i">
+                                <button class="accordion-button bg-black text-white fw-bold collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@i">
+                                    <i class="fas fa-question-circle text-danger me-3"></i> @item.Question
+                                </button>
+                            </h2>
+                            <div id="collapse-@i" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-white-50 border-top border-secondary border-opacity-25 pt-3">
+                                    @item.Answer
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

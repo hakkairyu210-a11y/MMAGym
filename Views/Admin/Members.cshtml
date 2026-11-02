@@ -1,0 +1,334 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Hội Viên & Đăng Ký";
+    var members = ViewBag.Members as List<MMA.Models.UserModel> ?? new();
+    var registrations = ViewBag.Registrations as List<MMA.Models.RegisterViewModel> ?? new();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-white mb-1"><i class="fas fa-users text-danger me-2"></i>Quản Lý Hội Viên & Yêu Cầu Đăng Ký</h3>
+        <p class="text-white-50 text-xs mb-0">Thêm mới, sửa thông tin, phê duyệt đóng tiền hoặc xóa danh sách học viên trong CSDL.</p>
+    </div>
+    <button type="button" class="btn btn-danger btn-sm fw-bold px-3 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#createMemberModal">
+        <i class="fas fa-user-plus me-1"></i> Thêm Hội Viên Mới
+    </button>
+</div>
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+@if (TempData["AdminError"] != null)
+{
+    <div class="alert alert-danger bg-danger bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-exclamation-triangle me-2"></i>@TempData["AdminError"]
+    </div>
+}
+
+<!-- Tabs for Members vs Registrations -->
+<ul class="nav nav-pills mb-4 bg-dark p-1 rounded-3 d-inline-flex border border-secondary border-opacity-25" id="memberTabs">
+    <li class="nav-item">
+        <button class="nav-link active text-white fw-bold px-4 py-2 text-sm rounded-3" id="active-members-tab" data-bs-toggle="pill" data-bs-target="#active-members">
+            <i class="fas fa-user-check me-2 text-success"></i>Hội Viên Đã Kích Hoạt (@members.Count)
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link text-white-50 fw-bold px-4 py-2 text-sm rounded-3" id="pending-reg-tab" data-bs-toggle="pill" data-bs-target="#pending-reg">
+            <i class="fas fa-clock me-2 text-warning"></i>Yêu Cầu Đăng Ký Mới (@registrations.Count)
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="memberTabsContent">
+    <!-- Active Members Tab -->
+    <div class="tab-pane fade show active" id="active-members">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover mb-0 text-sm align-middle">
+                        <thead class="table-secondary text-uppercase text-xs text-white-50">
+                            <tr>
+                                <th class="ps-4">Thành viên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Hạng hội viên</th>
+                                <th>Trạng thái</th>
+                                <th class="pe-4 text-end">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in members)
+                            {
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="@user.AvatarUrl" class="rounded-circle" style="width: 38px; height: 38px; object-fit: cover;" alt="Avatar">
+                                            <div class="fw-bold text-white">@user.FullName</div>
+                                        </div>
+                                    </td>
+                                    <td>@user.Email</td>
+                                    <td><span class="font-monospace">@user.Phone</span></td>
+                                    <td><span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50">@user.Role</span></td>
+                                    <td>
+                                        @if (user.Status == "Hoạt động")
+                                        {
+                                            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">Hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50">Tạm khóa</span>
+                                        }
+                                    </td>
+                                    <td class="pe-4 text-end">
+                                        <button class="btn btn-sm btn-outline-warning text-xs me-1" onclick="openEditMemberModal('@user.Id', '@user.FullName', '@user.Email', '@user.Phone', '@(user.Status == "Hoạt động" ? "true" : "false")')">
+                                            <i class="fas fa-edit me-1"></i>Sửa
+                                        </button>
+                                        <form asp-controller="Admin" asp-action="DeleteMember" method="POST" class="d-inline" onsubmit="return confirm('Xác nhận xóa hội viên này khỏi CSDL?')">
+                                            <input type="hidden" name="id" value="@user.Id" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i>Xóa</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Registrations Tab -->
+    <div class="tab-pane fade" id="pending-reg">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover mb-0 text-sm align-middle">
+                        <thead class="table-secondary text-uppercase text-xs text-white-50">
+                            <tr>
+                                <th class="ps-4">Mã Hóa Đơn</th>
+                                <th>Họ và tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Gói tập / Môn học</th>
+                                <th>Thanh toán</th>
+                                <th>Trạng thái</th>
+                                <th class="pe-4 text-end">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var reg in registrations)
+                            {
+                                <tr>
+                                    <td class="ps-4 font-monospace text-danger fw-bold">@reg.InvoiceCode</td>
+                                    <td>
+                                        <div class="fw-bold text-white">@reg.Name</div>
+                                        <div class="text-xs text-white-50">@reg.Email</div>
+                                    </td>
+                                    <td><span class="font-monospace">@reg.Phone</span></td>
+                                    <td><span class="badge bg-danger text-white text-xs">@reg.SelectedClass</span></td>
+                                    <td><span class="text-warning text-xs font-monospace fw-bold">@reg.Amount.ToString("N0") đ</span> (@reg.PaymentMethod)</td>
+                                    <td>
+                                        @if (reg.IsApproved)
+                                        {
+                                            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-check-circle me-1"></i> Đã Thanh Toán</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-clock me-1"></i> Chờ Nhận Tiền</span>
+                                        }
+                                    </td>
+                                    <td class="pe-4 text-end">
+                                        <button type="button" class="btn btn-sm btn-outline-info text-xs me-1 shadow-sm" onclick="openRegDetail('@reg.InvoiceCode', '@reg.Name', '@reg.Phone', '@reg.Email', '@reg.SelectedClass', '@reg.Amount.ToString("N0")đ', '@reg.BranchName', '@reg.SelectedTrainer', '@reg.SelectedScheduleSlot', '@reg.PaymentMethod', '@reg.Status')">
+                                            <i class="fas fa-eye me-1"></i> Chi Tiết
+                                        </button>
+                                        @if (!reg.IsApproved)
+                                        {
+                                            <form asp-controller="Admin" asp-action="ApproveRegistration" method="POST" class="d-inline">
+                                                <input type="hidden" name="orderId" value="@reg.OrderId" />
+                                                <button type="submit" class="btn btn-sm btn-success text-xs fw-bold px-3 shadow-sm"><i class="fas fa-check-circle me-1"></i> Xác Nhận Đã Nhận Tiền</button>
+                                            </form>
+                                        }
+                                        <form asp-controller="Admin" asp-action="DeleteRegistration" method="POST" class="d-inline" onsubmit="return confirm('Xác nhận xóa đơn đăng ký này?')">
+                                            <input type="hidden" name="orderId" value="@reg.OrderId" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger text-xs ms-1"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thêm Hội Viên Mới -->
+<div class="modal fade" id="createMemberModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-user-plus text-danger me-2"></i>Thêm Hội Viên Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="CreateMember" method="POST">
+                <div class="modal-body p-4 text-xs">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Họ và Tên *</label>
+                        <input type="text" name="fullName" class="form-control bg-black text-white border-secondary" placeholder="Nhập họ tên hội viên" required>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Email *</label>
+                            <input type="email" name="email" class="form-control bg-black text-white border-secondary" placeholder="user@gmail.com" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Số điện thoại *</label>
+                            <input type="text" name="phone" class="form-control bg-black text-white border-secondary" placeholder="0900000000" required>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Vai Trò</label>
+                            <select name="role" class="form-select bg-black text-white border-secondary">
+                                <option value="Học viên">Học viên</option>
+                                <option value="Huấn luyện viên">Huấn luyện viên</option>
+                                <option value="Admin">Admin Quản trị</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Mật khâu ban đầu</label>
+                            <input type="text" name="password" class="form-control bg-black text-white border-secondary" value="123456">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold"><i class="fas fa-check me-1"></i> Tạo Tài Khoản</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sửa Thông Tin Hội Viên -->
+<div class="modal fade" id="editMemberModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-user-gear text-warning me-2"></i>Chỉnh Sửa Thông Tin Hội Viên</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="EditMember" method="POST">
+                <input type="hidden" name="id" id="editMemberId" />
+                <div class="modal-body p-4 text-xs">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Họ và Tên *</label>
+                        <input type="text" name="fullName" id="editMemberName" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Email *</label>
+                            <input type="email" name="email" id="editMemberEmail" class="form-control bg-black text-white border-secondary" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Số điện thoại *</label>
+                            <input type="text" name="phone" id="editMemberPhone" class="form-control bg-black text-white border-secondary" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Trạng Thái Tài Khoản</label>
+                        <select name="status" id="editMemberStatus" class="form-select bg-black text-white border-secondary">
+                            <option value="true">Hoạt động (Hoạt động bình thường)</option>
+                            <option value="false">Tạm khóa tài khoản</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold text-dark"><i class="fas fa-save me-1"></i> Lưu Thay Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xem Chi Tiết Đơn Đăng Ký (Member Page) -->
+<div class="modal fade" id="regDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-file-invoice-dollar text-danger me-2"></i>Chi Tiết Đăng Ký & Đóng Tiền</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 text-xs">
+                <div class="p-3 bg-black rounded-3 mb-3 border border-secondary border-opacity-25">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-white-50">Mã Hóa Đơn:</span>
+                        <strong class="text-danger font-monospace fs-6" id="rdInvoiceCode">HD-2026-001</strong>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-white-50">Trạng Thái Đóng Tiền:</span>
+                        <strong class="text-warning" id="rdStatus">Chưa thanh toán</strong>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-dark rounded-3 mb-3 border border-secondary border-opacity-25">
+                    <div class="fw-bold text-white text-sm mb-2"><i class="fas fa-user text-primary me-2"></i>Thông Tin Học Viên</div>
+                    <div class="mb-1"><span class="text-white-50">Họ và tên:</span> <strong class="text-white" id="rdName">Nguyễn Hùng Mạnh</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Số điện thoại:</span> <strong class="text-white" id="rdPhone">0947054075</strong></div>
+                    <div><span class="text-white-50">Email:</span> <strong class="text-white" id="rdEmail">nguyenmanh@gmail.com</strong></div>
+                </div>
+
+                <div class="p-3 bg-dark rounded-3 mb-3 border border-secondary border-opacity-25">
+                    <div class="fw-bold text-white text-sm mb-2"><i class="fas fa-dumbbell text-warning me-2"></i>Dịch Vụ, HLV & Ca Học Đăng Ký</div>
+                    <div class="mb-1"><span class="text-white-50">Gói tập / Môn học:</span> <strong class="text-warning" id="rdClass">Gói 12 Tháng (1 Năm) VIP</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Tổng giá tiền:</span> <strong class="text-danger fs-6" id="rdAmount">7,990,000 đ</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Chi nhánh:</span> <strong class="text-white" id="rdBranch">MMA - Dương Quang Đông (Q8)</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Huấn luyện viên đứng lớp:</span> <strong class="text-info" id="rdTrainer">Văn Bá Huyên (Senior Coach)</strong></div>
+                    <div><span class="text-white-50">Ca học đăng ký:</span> <strong class="text-success" id="rdSchedule">Thứ 2, 4, 6 - Ca 18:00 PM</strong></div>
+                </div>
+
+                <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                    <div class="text-white-50 mb-1">Phương Thức Thanh Toán Chọn:</div>
+                    <strong class="text-info fs-6" id="rdPayment">Ví Momo Online / QR Code MB Bank</strong>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-dark">
+                <button type="button" class="btn btn-secondary w-100 fw-bold" data-bs-dismiss="modal">Đóng Trả Lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openRegDetail(invoice, name, phone, email, selectedClass, amount, branch, trainer, schedule, payment, status) {
+        document.getElementById('rdInvoiceCode').innerText = invoice;
+        document.getElementById('rdName').innerText = name;
+        document.getElementById('rdPhone').innerText = phone;
+        document.getElementById('rdEmail').innerText = email;
+        document.getElementById('rdClass').innerText = selectedClass;
+        document.getElementById('rdAmount').innerText = amount;
+        document.getElementById('rdBranch').innerText = branch;
+        document.getElementById('rdTrainer').innerText = trainer || 'Văn Bá Huyên (Senior Coach)';
+        document.getElementById('rdSchedule').innerText = schedule || 'Thứ 2, 4, 6 - Ca 18:00 PM';
+        document.getElementById('rdPayment').innerText = payment;
+        document.getElementById('rdStatus').innerText = status;
+
+        var modal = new bootstrap.Modal(document.getElementById('regDetailModal'));
+        modal.show();
+    }
+
+    function openEditMemberModal(id, name, email, phone, status) {
+        document.getElementById('editMemberId').value = id;
+        document.getElementById('editMemberName').value = name;
+        document.getElementById('editMemberEmail').value = email;
+        document.getElementById('editMemberPhone').value = phone;
+        document.getElementById('editMemberStatus').value = status;
+
+        var modal = new bootstrap.Modal(document.getElementById('editMemberModal'));
+        modal.show();
+    }
+</script>

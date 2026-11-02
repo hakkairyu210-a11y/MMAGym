@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 70" width="260" height="70">
+  <defs>
+    <linearGradient id="mmaRedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2E4D" />
+      <stop offset="100%" stop-color="#C00A27" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Shield/Octagon Icon -->
+  <g transform="translate(4, 5)">
+    <polygon points="18,0 42,0 60,18 60,42 42,60 18,60 0,42 0,18" fill="url(#mmaRedGrad)" />
+    <!-- Dynamic Fight Octagon Ring Lines -->
+    <polygon points="18,3 42,3 57,18 57,42 42,57 18,57 3,42 3,18" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+    <!-- Center MMA 'M' Fist Emblem -->
+    <path d="M 14 42 L 23 18 L 30 31 L 37 18 L 46 42 L 39 42 L 34 26 L 30 35 L 26 26 L 21 42 Z" fill="#FFFFFF" />
+  </g>
+  <!-- MMA Brand Text -->
+  <text x="75" y="44" font-family="'Chakra Petch', 'Impact', 'Arial Black', sans-serif" font-size="44" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="3">MMA</text>
+  <!-- Accent Red Line -->
+  <rect x="75" y="49" width="175" height="3" fill="url(#mmaRedGrad)" rx="1.5" />
+  <!-- Subtitle Text -->
+  <text x="75" y="62" font-family="'Chakra Petch', 'Arial', sans-serif" font-size="8.5" font-weight="700" fill="#FF2E4D" letter-spacing="2">FITNESS • BOXING • YOGA</text>
+</svg>

@@ -1,0 +1,688 @@
+@model MMA.Models.HomeViewModel
+@{
+    ViewData["Title"] = "Trang Chủ - MMA Sài Gòn | Hệ Thống Võ Thuật & Fitness";
+}
+
+<!-- Hero Banner Section -->
+<section class="hero-banner" style="background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(15,15,18,0.9)), url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat; padding: 120px 0 100px;">
+    <div class="container hero-container">
+        <div class="hero-content text-start text-white animate-fade-in max-w-700">
+            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-uppercase fw-bold tracking-wider mb-3 px-3 py-2 text-xs">
+                <i class="fas fa-bolt me-1"></i> Hệ Sinh Thái Võ Thuật & Fitness Số 1 Sài Gòn
+            </span>
+            <h1 class="hero-title text-uppercase fw-black mb-4 display-4 text-white">
+                VÕ THUẬT TỰ DO <span class="text-danger">MMA</span> <br>& FITNESS ĐỈNH CAO
+            </h1>
+            <p class="hero-desc text-white-50 mb-5 fs-5">
+                Kiến tạo lại thể chất, phản xạ tự vệ và ý chí thép cùng các Vận Động Viên Quốc Gia tại 6 chi nhánh hiện đại bậc nhất.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="#classes-section" class="btn btn-danger header-cta-btn text-uppercase px-4 py-3 shadow-lg">
+                    Khám Phá Lớp Học <i class="fas fa-arrow-down ms-2"></i>
+                </a>
+                <a href="#pricing-section" class="btn btn-outline-light text-uppercase border-2 px-4 py-3 fw-bold">
+                    Xem Gói Tập 3M - 12M
+                </a>
+                <a href="/faq" class="btn btn-dark text-uppercase border border-secondary border-opacity-50 px-4 py-3 text-white-50">
+                    <i class="fas fa-question-circle me-1 text-danger"></i> FAQ
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- View Component Integration (Quick Stats) -->
+<div class="container position-relative mb-5" style="z-index: 10;">
+    @await Component.InvokeAsync("QuickStats")
+</div>
+
+<!-- 3 Pillars Service Cards Section (Chuẩn Fitbox.vn) -->
+<section class="section-padding bg-black text-white pt-0">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 h-100 shadow-sm text-center transition-transform hover-border-danger">
+                    <div class="rounded-circle bg-danger bg-opacity-25 text-danger mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                        <i class="fas fa-users-gear fs-2"></i>
+                    </div>
+                    <h3 class="fw-bold text-white fs-4 mb-3">Tư Vấn Tập Luyện</h3>
+                    <p class="text-white-50 text-sm mb-0">
+                        Đội ngũ HLV đánh giá thể trạng và xây dựng lộ trình tập luyện cá nhân hóa — phù hợp mục tiêu, thời gian và thể lực của riêng bạn.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 h-100 shadow-sm text-center transition-transform hover-border-danger">
+                    <div class="rounded-circle bg-danger bg-opacity-25 text-danger mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                        <i class="fas fa-dumbbell fs-2"></i>
+                    </div>
+                    <h3 class="fw-bold text-white fs-4 mb-3">Thư Viện Bài Tập Mới</h3>
+                    <p class="text-white-50 text-sm mb-0">
+                        Cập nhật liên tục các bài tập từ Gym, Boxing, Muay Thái, MMA đến Yoga, Dance — giúp bạn luôn có động lực và không bao giờ nhàm chán.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 h-100 shadow-sm text-center transition-transform hover-border-danger">
+                    <div class="rounded-circle bg-danger bg-opacity-25 text-danger mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                        <i class="fas fa-apple-whole fs-2"></i>
+                    </div>
+                    <h3 class="fw-bold text-white fs-4 mb-3">Kiến Thức Dinh Dưỡng</h3>
+                    <p class="text-white-50 text-sm mb-0">
+                        Chia sẻ kiến thức dinh dưỡng khoa học từ chuyên gia — hỗ trợ bạn ăn đúng, tập đúng và đạt kết quả nhanh chóng, bền vững hơn.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About MMA Sài Gòn Section (Sứ Mệnh & Giá Trị Cốt Lõi Chuẩn Fitbox.vn) -->
+<section class="section-padding bg-dark text-white border-top border-secondary border-opacity-25" id="about-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=800&auto=format&fit=crop&q=80" alt="MMA Sài Gòn Gym" class="w-100 rounded-4 shadow-lg border border-secondary border-opacity-25">
+                    <div class="position-absolute bottom-3 end-3 bg-danger text-white p-3 rounded-3 shadow-lg d-none d-sm-block" style="max-width: 220px;">
+                        <div class="fw-bold fs-4">100% VĐV</div>
+                        <div class="text-xs">HLV lớp Võ đều là Vận Động Viên Quốc Gia</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <span class="subtitle-badge text-danger">Hơn cả một phòng tập</span>
+                <h2 class="section-heading-title text-white mb-4">SỨ MỆNH CỦA MMA SÀI GÒN — <br><span class="text-danger">KẾT QUẢ THẬT & ĐỒNG HÀNH</span></h2>
+                <p class="text-white-50 text-justify mb-4">
+                    <strong>MMA Sài Gòn</strong> không bán gói tập hình thức — chúng tôi bán sự lột xác về thể chất, bản lĩnh võ thuật và lối sống lành mạnh. Mỗi hội viên bước vào thảm đấu MMA đều được tôn trọng và theo sát lộ trình cá nhân hóa.
+                </p>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center gap-2 text-sm text-light">
+                            <i class="fas fa-check-circle text-danger fs-5"></i>
+                            <span>6 Chi nhánh chuẩn quốc tế</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center gap-2 text-sm text-light">
+                            <i class="fas fa-check-circle text-danger fs-5"></i>
+                            <span>Thiết bị Gym 100% nhập khẩu</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center gap-2 text-sm text-light">
+                            <i class="fas fa-check-circle text-danger fs-5"></i>
+                            <span>Minh bạch 100% không chèo kéo</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center gap-2 text-sm text-light">
+                            <i class="fas fa-check-circle text-danger fs-5"></i>
+                            <span>Đo chỉ số cơ thể InBody miễn phí</span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#register-section" class="btn btn-danger px-4 py-3 text-uppercase fw-bold shadow-lg">
+                    <i class="fas fa-hand-fist me-2"></i> Trải Nghiệm Tập Thử Miễn Phí
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Disciplines & Classes Showcase Section -->
+<section class="section-padding bg-black text-white" id="classes-section">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="subtitle-badge text-danger">Chương trình rèn luyện</span>
+            <h2 class="section-heading-title text-white">Các Bộ Môn Luyện Tập Nổi Bật</h2>
+            <p class="text-white-50">Tập luyện chuyên sâu cùng trang thiết bị chuẩn quốc tế và giáo trình thiết kế riêng cho từng thể trạng.</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var item in Model.FeaturedClasses)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="card bg-black border-secondary border-opacity-25 rounded-4 overflow-hidden h-100 shadow-sm transition-transform hover-border-danger">
+                        <div class="position-relative overflow-hidden" style="height: 220px;">
+                            <img src="@item.ImageUrl" class="w-100 h-100 object-fit-cover" alt="@item.Title">
+                            <span class="position-absolute top-3 start-3 badge bg-danger text-white text-xs fw-bold px-3 py-1.5 rounded-pill">
+                                <i class="@item.IconClass me-1"></i> @item.Title
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h4 class="card-title text-white fw-bold mb-2">@item.Title</h4>
+                            <p class="card-text text-white-50 text-sm mb-3 flex-grow-1">@item.Description</p>
+                            
+                            <div class="border-top border-secondary border-opacity-25 pt-3 mb-3 text-xs text-white-50">
+                                <div class="mb-1"><i class="fas fa-clock text-danger me-2"></i>Lịch tập: <strong>@item.ScheduleTime</strong></div>
+                                <div><i class="fas fa-user-ninja text-warning me-2"></i>HLV: <strong>@item.TrainerName</strong></div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm text-xs w-50" 
+                                        onclick="showClassDetail('@item.Title', '@item.Description', '@item.CaloriesBurned', '@item.TargetAudience', '@item.DetailedBenefits', '@item.ScheduleTime', '@item.TrainerName')">
+                                    <i class="fas fa-info-circle me-1"></i> Chi Tiết
+                                </button>
+                                <a href="#register-section" class="btn btn-danger btn-sm text-xs w-50 text-uppercase fw-bold">
+                                    <i class="fas fa-plus me-1"></i> Đăng Ký
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Membership Pricing Plans Section (Gói Tập 3 Tháng - 1 Năm) -->
+<section class="section-padding bg-black text-white" id="pricing-section">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="subtitle-badge text-danger">Bảng giá minh bạch</span>
+            <h2 class="section-heading-title text-white">Các Gói Tập Đăng Ký</h2>
+            <p class="text-white-50">Cam kết không chèo kéo, không chi phí ẩn — Giá công khai linh hoạt từ 3 tháng đến 1 năm.</p>
+        </div>
+
+        <div class="row g-4 align-items-center">
+            @foreach (var plan in Model.MembershipPlans)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card p-4 p-md-5 rounded-4 @(plan.IsPopular ? "popular-card" : "") h-100">
+                        @if (plan.IsPopular)
+                        {
+                            <div class="pricing-badge">@plan.PopularBadgeText</div>
+                        }
+
+                        <div class="text-center mb-4">
+                            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs text-uppercase fw-bold mb-2">@plan.DurationText</span>
+                            <h3 class="fw-bold text-white mb-2">@plan.Name</h3>
+                            <div class="text-muted text-decoration-line-through text-sm mb-1">@plan.OriginalPrice.ToString("N0") VNĐ</div>
+                            <div class="display-6 fw-black text-danger mb-1">@plan.Price.ToString("N0") <span class="fs-6 text-white-50">VNĐ</span></div>
+                            <span class="text-xs text-success fw-bold">@plan.PerMonthPrice</span>
+                        </div>
+
+                        <ul class="list-unstyled text-sm text-white-50 mb-4 d-flex flex-column gap-2.5">
+                            @foreach (var feature in plan.Features)
+                            {
+                                <li class="d-flex align-items-start gap-2">
+                                    <i class="fas fa-check-circle text-danger mt-1"></i>
+                                    <span>@feature</span>
+                                </li>
+                            }
+                        </ul>
+
+                        <a href="#register-section" onclick="selectPackage('@plan.Name')" class="btn @(plan.IsPopular ? "btn-danger" : "btn-outline-light") w-100 py-3 text-uppercase fw-bold shadow-sm">
+                            Đăng Ký @plan.Name
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Trainer Showcase Section -->
+<section class="section-padding bg-dark text-white">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="subtitle-badge text-danger">Đội ngũ chuyên gia</span>
+            <h2 class="section-heading-title text-white">Huấn Luyện Viên Quốc Gia</h2>
+            <p class="text-white-50">100% HLV môn võ đều là Vận Động Viên Quốc Gia, HLV Cấp 1 có chứng chỉ quốc tế.</p>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var trainer in Model.FeaturedTrainers)
+            {
+                <div class="col-lg-3 col-md-6">
+                    <div class="card bg-black border-secondary border-opacity-25 rounded-4 p-4 text-center h-100 shadow-sm">
+                        <img src="@trainer.ImageUrl" class="rounded-circle mx-auto mb-3 border border-danger border-2" style="width: 120px; height: 120px; object-fit: cover;" alt="@trainer.Name">
+                        <h4 class="fw-bold text-white mb-1 fs-5">@trainer.Name</h4>
+                        <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs mb-3">@trainer.Role</span>
+                        <div class="text-xs text-white-50 mb-3">
+                            <i class="fas fa-award text-warning me-1"></i>@trainer.ExperienceYears năm kinh nghiệm
+                        </div>
+                        <button type="button" class="btn btn-outline-secondary btn-sm text-xs mt-auto"
+                                onclick="showTrainerDetail('@trainer.Name', '@trainer.Role', '@trainer.ExperienceYears', '@trainer.Certificates', '@trainer.Bio', '@trainer.Specialties')">
+                            <i class="fas fa-user me-1"></i> Xem Hồ Sơ HLV
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Interactive BMI Calculator Section (Chuẩn Fitbox.vn) -->
+<section class="section-padding bg-black text-white border-top border-secondary border-opacity-25" id="bmi-section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="subtitle-badge text-danger">Tự đánh giá thể trạng</span>
+                <h2 class="section-heading-title text-white">Kiểm Tra Chỉ Số BMI Cơ Thể</h2>
+                <p class="text-white-50 mb-4">
+                    Chỉ số khối cơ thể (BMI) giúp bạn xác định thể trạng gầy, cân đối hay thừa cân để lựa chọn bài tập Võ Thuật & Gym thích hợp nhất.
+                </p>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase mb-1">BMI < 18.5</div>
+                            <span class="badge bg-warning text-dark fw-bold">Thiếu cân / Gầy</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase mb-1">BMI 18.5 - 24.9</div>
+                            <span class="badge bg-success text-white fw-bold">Cân đối / Lý tưởng</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase mb-1">BMI 25 - 29.9</div>
+                            <span class="badge bg-danger text-white fw-bold">Thừa cân / Cần tập mỡ</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase mb-1">BMI >= 30</div>
+                            <span class="badge bg-danger bg-opacity-75 text-white fw-bold">Béo phì / Cần PT 1-1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card bg-dark border-danger border-opacity-50 rounded-4 p-4 p-md-5 shadow-lg">
+                    <h3 class="fw-bold text-white mb-4 text-center text-uppercase"><i class="fas fa-calculator text-danger me-2"></i>Tính Chỉ Số BMI & Tỷ Lệ Mỡ</h3>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50 d-block">Giới tính *</label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bmiGender" id="bmiMale" value="male" checked>
+                                <label class="form-check-label text-white" for="bmiMale"><i class="fas fa-mars text-primary me-1"></i> Nam</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bmiGender" id="bmiFemale" value="female">
+                                <label class="form-check-label text-white" for="bmiFemale"><i class="fas fa-venus text-danger me-1"></i> Nữ</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label text-sm text-white-50">Độ tuổi</label>
+                            <input type="number" id="bmiAge" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 25" value="25">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-sm text-white-50">Chiều cao (cm)</label>
+                            <input type="number" id="bmiHeight" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 170" value="170">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-sm text-white-50">Cân nặng (kg)</label>
+                            <input type="number" id="bmiWeight" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 65" value="65">
+                        </div>
+                    </div>
+                    <button type="button" onclick="calculateBMI()" class="btn btn-danger w-100 py-3 text-uppercase fw-bold shadow-sm mb-4">
+                        <i class="fas fa-bolt me-2"></i> Tính Ngay Kết Quả
+                    </button>
+                    <div id="bmiResultBox" class="p-3 bg-black rounded-3 border border-secondary text-center d-none">
+                        <div class="row align-items-center g-2 mb-2">
+                            <div class="col-6 border-end border-secondary">
+                                <div class="text-xs text-white-50 text-uppercase mb-1">BMI của bạn</div>
+                                <div class="display-6 fw-black text-danger" id="bmiVal">22.5</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-xs text-white-50 text-uppercase mb-1">Tỷ lệ mỡ ước tính</div>
+                                <div class="display-6 fw-black text-warning" id="bmiFatVal">18%</div>
+                            </div>
+                        </div>
+                        <div class="fw-bold fs-6 mb-2 text-white" id="bmiStatus">Cân đối</div>
+                        <p class="text-xs text-white-50 mb-0" id="bmiAdvice"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Registration & Countdown Form Section -->
+<section class="section-padding register-section-bg" id="register-section">
+    <div class="container py-4">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="subtitle-badge text-danger">Trở thành hội viên</span>
+                <h2 class="text-white section-heading-title display-6 fw-black">ĐĂNG KÝ TẬP THỬ & NHẬN ƯU ĐÃI</h2>
+                <p class="text-white-50 mb-4">
+                    Nhận ngay 01 buổi tập thử miễn phí cùng HLV Võ Thuật Quốc Gia + Đo chỉ số cơ thể InBody miễn phí.
+                </p>
+
+                <!-- Countdown Timer -->
+                <div class="countdown-wrapper mb-4">
+                    <div class="countdown-box"><span class="countdown-number" id="cd-days">02</span><span class="countdown-label">Ngày</span></div>
+                    <div class="countdown-box"><span class="countdown-number" id="cd-hours">14</span><span class="countdown-label">Giờ</span></div>
+                    <div class="countdown-box"><span class="countdown-number" id="cd-mins">35</span><span class="countdown-label">Phút</span></div>
+                    <div class="countdown-box"><span class="countdown-number" id="cd-secs">40</span><span class="countdown-label">Giây</span></div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="registration-card p-4 p-md-5 rounded-4 shadow-lg border border-secondary border-opacity-25 bg-black">
+                    <h3 class="text-white mb-4 text-uppercase text-center fw-bold">Form Đăng Ký Luyện Tập</h3>
+                    <form asp-controller="Home" asp-action="Index" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-sm text-white-50">Họ tên hội viên *</label>
+                            <input asp-for="RegisterForm.Name" class="form-control bg-dark text-white border-secondary" placeholder="Nhập họ và tên đầy đủ *">
+                            <span asp-validation-for="RegisterForm.Name" class="field-validation-error"></span>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-sm text-white-50">Email *</label>
+                                <input asp-for="RegisterForm.Email" class="form-control bg-dark text-white border-secondary" type="email" placeholder="Địa chỉ Email *">
+                                <span asp-validation-for="RegisterForm.Email" class="field-validation-error"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-sm text-white-50">Số điện thoại *</label>
+                                <input asp-for="RegisterForm.Phone" class="form-control bg-dark text-white border-secondary" placeholder="Số điện thoại liên hệ *">
+                                <span asp-validation-for="RegisterForm.Phone" class="field-validation-error"></span>
+                            </div>
+                        </div>
+
+                        <!-- Categorized Registration Selection -->
+                        <div class="mb-3">
+                            <label class="form-label text-sm text-white-50 d-block">1. Chọn Loại Đăng Ký *</label>
+                            <div class="btn-group w-100 mb-2" role="group">
+                                <input type="radio" class="btn-check" name="RegisterForm.RegistrationType" id="regTypePackage" value="Gói Tập Membership" checked onclick="toggleRegType('package')">
+                                <label class="btn btn-outline-danger btn-sm text-uppercase fw-bold py-2" for="regTypePackage"><i class="fas fa-id-card me-1"></i> Gói Tập Membership</label>
+
+                                <input type="radio" class="btn-check" name="RegisterForm.RegistrationType" id="regTypeClass" value="Lớp Học Võ Thuật" onclick="toggleRegType('class')">
+                                <label class="btn btn-outline-danger btn-sm text-uppercase fw-bold py-2" for="regTypeClass"><i class="fas fa-hand-fist me-1"></i> Lớp Học Võ/Fitness</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-sm text-white-50">2. Chọn Gói tập / Lớp học cụ thể *</label>
+                            <select asp-for="RegisterForm.SelectedClass" class="form-select bg-dark text-white border-secondary" id="selectedClassSelect">
+                                <optgroup label="--- GÓI TẬP MEMBERSHIP TÍCH HỢP ---" id="optGroupPackages">
+                                    <option value="Gói 3 Tháng">Gói 3 Tháng (2.990.000đ - Tiết kiệm)</option>
+                                    <option value="Gói 6 Tháng">Gói 6 Tháng (4.990.000đ - Tặng găng Boxing)</option>
+                                    <option value="Gói 1 Năm" selected>Gói 1 Năm (7.990.000đ - Best Deal VIP)</option>
+                                </optgroup>
+                                <optgroup label="--- CÁC LỚP HỌC VÕ THUẬT & FITNESS ---" id="optGroupClasses">
+                                    <option value="MMA - Mixed Martial Arts">MMA - Mixed Martial Arts (Thực chiến đỉnh cao)</option>
+                                    <option value="Boxing Chuyên Sâu">Boxing Chuyên Sâu (Phản xạ & Đập mỡ)</option>
+                                    <option value="Muay Thái Võ Thuật">Muay Thái Võ Thuật (Uy lực chỏ gối)</option>
+                                    <option value="Fitness & Body Building">Fitness & Body Building (Tăng cơ giảm mỡ)</option>
+                                    <option value="Yoga Ấn Độ">Yoga Ấn Độ (Cân bằng & dẻo dai)</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <!-- Trainer and Schedule Selection -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-sm text-white-50">3. Chọn Huấn Luyện Viên Phụ Trách</label>
+                                <select asp-for="RegisterForm.SelectedTrainer" class="form-select bg-dark text-white border-secondary">
+                                    <option value="Văn Bá Huyên (Senior Coach)">Văn Bá Huyên (Senior MMA Coach)</option>
+                                    <option value="Nguyễn Văn Khoa (Boxing Head Coach)">Nguyễn Văn Khoa (Boxing Head Coach)</option>
+                                    <option value="Dương Hữu Trường (Body Builder)">Dương Hữu Trường (Body Builder)</option>
+                                    <option value="Phạm Xuân Quốc Huy (Yoga Master)">Phạm Xuân Quốc Huy (Yoga Master)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-sm text-white-50">4. Chọn Ca Học Trong Tuần</label>
+                                <select asp-for="RegisterForm.SelectedScheduleSlot" class="form-select bg-dark text-white border-secondary">
+                                    <option value="Thứ 2, 4, 6 - Ca Tối 18:00 PM">Thứ 2, 4, 6 - Ca Tối (18:00 PM - 19:30 PM)</option>
+                                    <option value="Thứ 2, 4, 6 - Ca Sáng 09:00 AM">Thứ 2, 4, 6 - Ca Sáng (09:00 AM - 10:30 AM)</option>
+                                    <option value="Thứ 3, 5, 7 - Ca Tối 18:00 PM">Thứ 3, 5, 7 - Ca Tối (18:00 PM - 19:30 PM)</option>
+                                    <option value="Thứ 3, 5, 7 - Ca Sáng 09:00 AM">Thứ 3, 5, 7 - Ca Sáng (09:00 AM - 10:30 AM)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method Selection -->
+                        <div class="mb-4">
+                            <label class="form-label text-sm text-white-50 d-block">5. Chọn Hình Thức Thanh Toán *</label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check" name="RegisterForm.PaymentMethod" id="payMomo" value="MomoOnline" checked>
+                                    <label class="btn btn-outline-danger btn-sm w-100 p-2 text-start text-xs border-secondary text-white" for="payMomo">
+                                        <i class="fas fa-qrcode text-danger me-1 fs-6"></i> <strong>Thanh toán Online (VietQR)</strong><br>
+                                        <span class="text-white-50 text-xxs">Quét QR Ngân hàng / Momo</span>
+                                    </label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="radio" class="btn-check" name="RegisterForm.PaymentMethod" id="payCash" value="TienMat">
+                                    <label class="btn btn-outline-danger btn-sm w-100 p-2 text-start text-xs border-secondary text-white" for="payCash">
+                                        <i class="fas fa-money-bill-wave text-success me-1 fs-6"></i> <strong>Tiền mặt tại quầy</strong><br>
+                                        <span class="text-white-50 text-xxs">Thanh toán khi tới phòng tập</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100 py-3 text-uppercase fw-bold fs-6 shadow-lg">
+                            <i class="fas fa-check-circle me-2"></i> Xác Nhận Đăng Ký & Quét Mã Thanh Toán
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Xem Chi Tiết Lớp Học -->
+<div class="modal fade" id="classDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white" id="mClassTitle">Chi Tiết Lớp Học</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-white-50 fs-6 mb-4" id="mClassDesc"></p>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase fw-bold mb-1">Mức Tiêu Thụ Calo</div>
+                            <div class="text-danger fw-bold fs-5" id="mClassCalories"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase fw-bold mb-1">Đối Tượng Phù Hợp</div>
+                            <div class="text-warning fw-bold text-sm" id="mClassAudience"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                    <div class="text-xs text-white-50 text-uppercase fw-bold mb-1">Lợi Ích Đạt Được</div>
+                    <div class="text-light text-sm" id="mClassBenefits"></div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-dark">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <a href="#register-section" class="btn btn-danger text-uppercase fw-bold" data-bs-dismiss="modal">Đăng Ký Lớp Này</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xem Hồ Sơ HLV -->
+<div class="modal fade" id="trainerDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white" id="mTrainerName">Hồ Sơ Huấn Luyện Viên</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <span class="badge bg-danger text-white mb-2" id="mTrainerRole"></span>
+                <p class="text-white-50 mb-3" id="mTrainerBio"></p>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 uppercase fw-bold">Kinh Nghiệm</div>
+                            <div class="text-warning fw-bold fs-5" id="mTrainerExp"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 uppercase fw-bold">Chuyên Môn</div>
+                            <div class="text-info fw-bold text-sm" id="mTrainerSpecs"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                    <div class="text-xs text-white-50 uppercase fw-bold mb-1">Bằng Cấp & Chứng Chỉ</div>
+                    <div class="text-success fw-bold text-sm" id="mTrainerCerts"></div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-dark">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <a href="#register-section" class="btn btn-danger text-uppercase fw-bold" data-bs-dismiss="modal">Đăng Ký Tập Cùng HLV</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thanh Toán Online (VietQR & MB Bank Transfer) -->
+<div class="modal fade" id="onlinePaymentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark text-center">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-qrcode text-danger me-2"></i>Thanh Toán QR Code Động (MB Bank / VietQR)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-3 text-sm">
+                    <i class="fas fa-check-circle me-1"></i> Đăng ký thành công cho hội viên <strong>@TempData["SubmittedName"]</strong>!
+                </div>
+                <p class="text-white-50 text-xs mb-3">Vui lòng quét mã VietQR dưới đây bằng App Ngân Hàng hoặc Ví Momo để chuyển khoản & chờ Admin xác nhận đã nhận tiền:</p>
+                
+                <div class="bg-white p-3 rounded-4 d-inline-block shadow-lg mb-3 border border-3 border-danger">
+                    <img src="https://img.vietqr.io/image/MB-0100280499999-compact2.png?amount=7990000&addInfo=@TempData["SubmittedName"]%20Tap%20MMA&accountName=NGUYEN%20HUNG%20MANH" alt="VietQR Dynamic Code" style="width: 220px; height: 220px;" id="vietQrImg">
+                </div>
+
+                <div class="p-3 bg-black rounded-3 text-start border border-secondary text-xs">
+                    <div class="mb-1"><i class="fas fa-university text-danger me-2"></i>Ngân hàng: <strong>MB Bank (NH Quân Đội)</strong></div>
+                    <div class="mb-1"><i class="fas fa-credit-card text-danger me-2"></i>Số tài khoản: <strong class="text-warning font-monospace fs-5">0100280499999</strong></div>
+                    <div class="mb-1"><i class="fas fa-user text-danger me-2"></i>Chủ tài khoản: <strong class="text-white font-monospace fs-6">NGUYEN HUNG MANH</strong></div>
+                    <div><i class="fas fa-file-invoice text-danger me-2"></i>Nội dung CK: <strong class="text-danger font-monospace">@TempData["SubmittedName"] - Tap MMA</strong></div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-dark">
+                <button type="button" class="btn btn-danger w-100 fw-bold text-uppercase" data-bs-dismiss="modal">Đã Hoàn Tất Chuyển Khoản</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    @if (TempData["FormSuccess"] != null && (bool)TempData["FormSuccess"] && TempData["PaymentMethod"]?.ToString() == "MomoOnline")
+    {
+        <text>
+        document.addEventListener('DOMContentLoaded', function() {
+            var momoModal = new bootstrap.Modal(document.getElementById('onlinePaymentModal'));
+            momoModal.show();
+        });
+        </text>
+    }
+
+    function toggleRegType(type) {
+        var optPackages = document.getElementById('optGroupPackages');
+        var optClasses = document.getElementById('optGroupClasses');
+        var select = document.getElementById('selectedClassSelect');
+
+        if (type === 'package') {
+            if (optPackages) optPackages.style.display = '';
+            if (optClasses) optClasses.style.display = 'none';
+            if (select) select.value = "Gói 12 Tháng (1 Năm)";
+        } else {
+            if (optPackages) optPackages.style.display = 'none';
+            if (optClasses) optClasses.style.display = '';
+            if (select) select.value = "MMA - Mixed Martial Arts";
+        }
+    }
+
+    function showClassDetail(title, desc, calories, audience, benefits, schedule, trainer) {
+        document.getElementById('mClassTitle').innerText = title;
+        document.getElementById('mClassDesc').innerText = desc;
+        document.getElementById('mClassCalories').innerText = calories;
+        document.getElementById('mClassAudience').innerText = audience;
+        document.getElementById('mClassBenefits').innerText = benefits;
+        var myModal = new bootstrap.Modal(document.getElementById('classDetailModal'));
+        myModal.show();
+    }
+
+    function showTrainerDetail(name, role, exp, certs, bio, specs) {
+        document.getElementById('mTrainerName').innerText = name;
+        document.getElementById('mTrainerRole').innerText = role;
+        document.getElementById('mTrainerExp').innerText = exp + ' Năm Kinh Nghiệm';
+        document.getElementById('mTrainerCerts').innerText = certs;
+        document.getElementById('mTrainerBio').innerText = bio;
+        document.getElementById('mTrainerSpecs').innerText = specs;
+        var myModal = new bootstrap.Modal(document.getElementById('trainerDetailModal'));
+        myModal.show();
+    }
+
+    function selectPackage(packageName) {
+        var select = document.getElementById('selectedClassSelect');
+        if (select) {
+            select.value = packageName;
+        }
+    }
+
+    function calculateBMI() {
+        var h = parseFloat(document.getElementById('bmiHeight').value);
+        var w = parseFloat(document.getElementById('bmiWeight').value);
+        var age = parseFloat(document.getElementById('bmiAge').value) || 25;
+        var isMale = document.getElementById('bmiMale').checked;
+
+        if (!h || !w || h <= 0 || w <= 0) {
+            alert('Vui lòng nhập chiều cao và cân nặng hợp lệ!');
+            return;
+        }
+        var m = h / 100;
+        var bmi = (w / (m * m)).toFixed(1);
+        
+        // Calculate estimated body fat %: (1.20 * BMI) + (0.23 * Age) - (10.8 * Gender) - 5.4 (Gender: male=1, female=0)
+        var genderFactor = isMale ? 1 : 0;
+        var bodyFat = ((1.20 * bmi) + (0.23 * age) - (10.8 * genderFactor) - 5.4).toFixed(1);
+        if (bodyFat < 5) bodyFat = 5.0;
+
+        var box = document.getElementById('bmiResultBox');
+        var val = document.getElementById('bmiVal');
+        var fatVal = document.getElementById('bmiFatVal');
+        var status = document.getElementById('bmiStatus');
+        var advice = document.getElementById('bmiAdvice');
+        
+        box.classList.remove('d-none');
+        val.innerText = bmi;
+        fatVal.innerText = bodyFat + '%';
+        
+        var genderText = isMale ? 'Nam' : 'Nữ';
+
+        if (bmi < 18.5) {
+            status.innerHTML = '<span class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i> THỂ TRẠNG GẦY / THIẾU CÂN (' + genderText + ' ' + age + ' tuổi)</span>';
+            advice.innerText = 'Lời khuyên HLV: Bạn nên chọn các lớp Body Building + Fitness kết hợp dinh dưỡng tăng cân để xây dựng khối lượng cơ bắp.';
+        } else if (bmi >= 18.5 && bmi < 25) {
+            status.innerHTML = '<span class="text-success"><i class="fas fa-check-circle me-1"></i> THỂ TRẠNG LÝ TƯỞNG / CÂN ĐỐI (' + genderText + ' ' + age + ' tuổi)</span>';
+            advice.innerText = 'Lời khuyên HLV: Thể trạng tuyệt vời! Hãy tham gia các lớp MMA Thực Chiến hoặc Muay Thái để tăng tốc độ phản xạ và thể lực bùng nổ.';
+        } else if (bmi >= 25 && bmi < 30) {
+            status.innerHTML = '<span class="text-danger"><i class="fas fa-weight-scale me-1"></i> THỂ TRẠNG THỪA CÂN (' + genderText + ' ' + age + ' tuổi)</span>';
+            advice.innerText = 'Lời khuyên HLV: Bạn nên chọn các lớp Boxing Chuyên Sâu + Cycling Đạp Xe để đốt 800-1000 kcal/buổi và săn chắc vóc dáng.';
+        } else {
+            status.innerHTML = '<span class="text-danger fw-black"><i class="fas fa-circle-exclamation me-1"></i> THỂ TRẠNG BÉO PHÌ (' + genderText + ' ' + age + ' tuổi)</span>';
+            advice.innerText = 'Lời khuyên HLV: Nên đăng ký gói HLV Cá Nhân (PT 1-1) để được theo sát chế độ ăn kiêng và lộ trình giảm mỡ an toàn.';
+        }
+    }
+</script>
+}

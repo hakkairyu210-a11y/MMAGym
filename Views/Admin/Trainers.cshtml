@@ -1,0 +1,195 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Huấn Luyện Viên";
+}
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="text-white-50 text-sm mb-0">Đội ngũ HLV Võ Thuật, Fitness và Body Building tại hệ thống MMA Sài Gòn.</p>
+    </div>
+    <button type="button" class="btn btn-danger text-uppercase fw-bold px-3 py-2 text-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#createTrainerModal">
+        <i class="fas fa-user-plus me-2"></i>Thêm HLV Mới
+    </button>
+</div>
+
+<!-- Trainers Grid -->
+<div class="row g-4">
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 text-center h-100 shadow-sm">
+            <div class="position-relative d-inline-block mx-auto mb-3">
+                <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=500&auto=format&fit=crop&q=80" id="tImg1" class="rounded-circle border border-danger border-2" style="width: 110px; height: 110px; object-fit: cover;" alt="Văn Bá Huyên">
+                <span class="position-absolute bottom-0 end-0 bg-success p-2 rounded-circle border border-dark"></span>
+            </div>
+            <h5 class="fw-bold text-white mb-1">Văn Bá Huyên</h5>
+            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs mb-3">Senior MMA & Muay Thai Coach (12 Năm EXP)</span>
+            <div class="d-flex justify-content-center gap-2 mt-auto">
+                <button type="button" class="btn btn-sm btn-outline-info text-xs" onclick="openEditTrainer(1, 'Văn Bá Huyên', 'Senior MMA & Muay Thai Coach', 12, 'MMA, Muay Thái, Kickboxing', 'https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=500&auto=format&fit=crop&q=80')">
+                    <i class="fas fa-edit me-1"></i>Sửa Ảnh & Hồ Sơ
+                </button>
+                <form asp-controller="Admin" asp-action="DeleteTrainer" method="POST" class="d-inline" onsubmit="return confirm('Bạn có muốn xóa HLV này không?');">
+                    <input type="hidden" name="id" value="1" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i>Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 text-center h-100 shadow-sm">
+            <div class="position-relative d-inline-block mx-auto mb-3">
+                <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=500&auto=format&fit=crop&q=80" id="tImg2" class="rounded-circle border border-danger border-2" style="width: 110px; height: 110px; object-fit: cover;" alt="Nguyễn Văn Khoa">
+                <span class="position-absolute bottom-0 end-0 bg-success p-2 rounded-circle border border-dark"></span>
+            </div>
+            <h5 class="fw-bold text-white mb-1">Nguyễn Văn Khoa</h5>
+            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs mb-3">Boxing Head Coach (10 Năm EXP)</span>
+            <div class="d-flex justify-content-center gap-2 mt-auto">
+                <button type="button" class="btn btn-sm btn-outline-info text-xs" onclick="openEditTrainer(2, 'Nguyễn Văn Khoa', 'Boxing Head Coach', 10, 'Boxing Chuyên Sâu, Footwork', 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=500&auto=format&fit=crop&q=80')">
+                    <i class="fas fa-edit me-1"></i>Sửa Ảnh & Hồ Sơ
+                </button>
+                <form asp-controller="Admin" asp-action="DeleteTrainer" method="POST" class="d-inline" onsubmit="return confirm('Bạn có muốn xóa HLV này không?');">
+                    <input type="hidden" name="id" value="2" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i>Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 text-center h-100 shadow-sm">
+            <div class="position-relative d-inline-block mx-auto mb-3">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" id="tImg3" class="rounded-circle border border-danger border-2" style="width: 110px; height: 110px; object-fit: cover;" alt="Dương Hữu Trường">
+                <span class="position-absolute bottom-0 end-0 bg-success p-2 rounded-circle border border-dark"></span>
+            </div>
+            <h5 class="fw-bold text-white mb-1">Dương Hữu Trường</h5>
+            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 text-xs mb-3">Body Builder Specialist (9 Năm EXP)</span>
+            <div class="d-flex justify-content-center gap-2 mt-auto">
+                <button type="button" class="btn btn-sm btn-outline-info text-xs" onclick="openEditTrainer(3, 'Dương Hữu Trường', 'Body Builder Specialist', 9, 'Tăng Cơ Nhanh, Siết Mỡ', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80')">
+                    <i class="fas fa-edit me-1"></i>Sửa Ảnh & Hồ Sơ
+                </button>
+                <form asp-controller="Admin" asp-action="DeleteTrainer" method="POST" class="d-inline" onsubmit="return confirm('Bạn có muốn xóa HLV này không?');">
+                    <input type="hidden" name="id" value="3" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i>Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 text-center h-100 shadow-sm">
+            <div class="position-relative d-inline-block mx-auto mb-3">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80" id="tImg4" class="rounded-circle border border-danger border-2" style="width: 110px; height: 110px; object-fit: cover;" alt="Phạm Xuân Quốc Huy">
+                <span class="position-absolute bottom-0 end-0 bg-success p-2 rounded-circle border border-dark"></span>
+            </div>
+            <h5 class="fw-bold text-white mb-1">Phạm Xuân Quốc Huy</h5>
+            <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-50 text-xs mb-3">Yoga Master (8 Năm EXP)</span>
+            <div class="d-flex justify-content-center gap-2 mt-auto">
+                <button type="button" class="btn btn-sm btn-outline-info text-xs" onclick="openEditTrainer(4, 'Phạm Xuân Quốc Huy', 'Yoga Master', 8, 'Yoga Trị Liệu, Cột Sống', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80')">
+                    <i class="fas fa-edit me-1"></i>Sửa Ảnh & Hồ Sơ
+                </button>
+                <form asp-controller="Admin" asp-action="DeleteTrainer" method="POST" class="d-inline" onsubmit="return confirm('Bạn có muốn xóa HLV này không?');">
+                    <input type="hidden" name="id" value="4" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i>Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thêm HLV Mới -->
+<div class="modal fade" id="createTrainerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-user-plus text-danger me-2"></i>Thêm Huấn Luyện Viên Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="CreateTrainer" method="POST">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Họ và tên HLV *</label>
+                        <input type="text" name="name" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: Nguyễn Văn Hùng" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Chức danh / Vai trò *</label>
+                        <input type="text" name="role" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: Senior Boxing Coach" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Số năm kinh nghiệm *</label>
+                        <input type="number" name="experience" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 8" value="8" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Chuyên môn & Bằng cấp *</label>
+                        <input type="text" name="specialties" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: MMA thực chiến, Boxing, Bằng HLV Quốc Gia..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">URL Ảnh Chân Dung HLV (Tùy chọn)</label>
+                        <input type="url" name="imageUrl" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: https://images.unsplash.com/photo-...">
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold text-uppercase">Lưu Huấn Luyện Viên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sửa HLV -->
+<div class="modal fade" id="editTrainerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-edit text-warning me-2"></i>Chỉnh Sửa Hồ Sơ & Ảnh HLV</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="EditTrainer" method="POST">
+                <input type="hidden" name="id" id="editTrainerId" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Họ và tên HLV *</label>
+                        <input type="text" name="name" id="editTrainerName" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Chức danh / Vai trò *</label>
+                        <input type="text" name="role" id="editTrainerRole" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Số năm kinh nghiệm *</label>
+                        <input type="number" name="experience" id="editTrainerExp" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Chuyên môn & Bằng cấp *</label>
+                        <input type="text" name="specialties" id="editTrainerSpecs" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">URL Link Ảnh Chân Dung HLV *</label>
+                        <input type="url" name="imageUrl" id="editTrainerImg" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: https://images.unsplash.com/photo-...">
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold text-uppercase">Cập Nhật Hồ Sơ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditTrainer(id, name, role, exp, specs, img) {
+        document.getElementById('editTrainerId').value = id;
+        document.getElementById('editTrainerName').value = name;
+        document.getElementById('editTrainerRole').value = role;
+        document.getElementById('editTrainerExp').value = exp;
+        document.getElementById('editTrainerSpecs').value = specs;
+        document.getElementById('editTrainerImg').value = img || '';
+
+        var modal = new bootstrap.Modal(document.getElementById('editTrainerModal'));
+        modal.show();
+    }
+</script>

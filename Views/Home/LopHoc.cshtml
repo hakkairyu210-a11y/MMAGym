@@ -1,0 +1,105 @@
+@model List<MMA.Models.ClassModel>
+@{
+    ViewData["Title"] = "Danh Sách Lớp Học - MMA Sài Gòn";
+}
+
+<!-- Entry Banner Section -->
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Lớp Học Võ Thuật & Fitness</h1>
+        <div class="breadcrumb-area">
+            <a href="/">MMA Sài Gòn</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">Các Lớp Học</span>
+        </div>
+    </div>
+</section>
+
+<!-- Classes Archive Grid -->
+<section class="section-padding bg-dark text-white">
+    <div class="container">
+        <div class="row g-4">
+            @foreach (var cls in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="card bg-black border-secondary border-opacity-25 rounded-4 overflow-hidden h-100 shadow-sm transition-transform hover-border-danger">
+                        <div class="position-relative overflow-hidden" style="height: 220px;">
+                            <img src="@cls.ImageUrl" class="w-100 h-100 object-fit-cover" alt="@cls.Title">
+                            <span class="position-absolute top-3 start-3 badge bg-danger text-white text-xs fw-bold px-3 py-1.5 rounded-pill">
+                                <i class="@cls.IconClass me-1"></i> @cls.Title
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h4 class="card-title text-white fw-bold mb-2">@cls.Title</h4>
+                            <p class="card-text text-white-50 text-sm mb-3 flex-grow-1">@cls.Description</p>
+                            
+                            <div class="border-top border-secondary border-opacity-25 pt-3 mb-3 text-xs text-white-50">
+                                <div class="mb-1"><i class="fas fa-clock text-danger me-2"></i>Lịch tập: <strong>@cls.ScheduleTime</strong></div>
+                                <div><i class="fas fa-user-ninja text-warning me-2"></i>HLV: <strong>@cls.TrainerName</strong></div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm text-xs w-50" 
+                                        onclick="showClassDetail('@cls.Title', '@cls.Description', '@cls.CaloriesBurned', '@cls.TargetAudience', '@cls.DetailedBenefits', '@cls.ScheduleTime', '@cls.TrainerName')">
+                                    <i class="fas fa-info-circle me-1"></i> Chi Tiết
+                                </button>
+                                <a href="/#register-section" class="btn btn-danger btn-sm text-xs w-50 text-uppercase fw-bold">
+                                    <i class="fas fa-plus me-1"></i> Đăng Ký
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Modal Xem Chi Tiết Lớp Học -->
+<div class="modal fade" id="classDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white" id="mClassTitle">Chi Tiết Lớp Học</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-white-50 fs-6 mb-4" id="mClassDesc"></p>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase fw-bold mb-1">Mức Tiêu Thụ Calo</div>
+                            <div class="text-danger fw-bold fs-5" id="mClassCalories"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                            <div class="text-xs text-white-50 text-uppercase fw-bold mb-1">Đối Tượng Phù Hợp</div>
+                            <div class="text-warning fw-bold text-sm" id="mClassAudience"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                    <div class="text-xs text-white-50 text-uppercase fw-bold mb-1">Lợi Ích Đạt Được</div>
+                    <div class="text-light text-sm" id="mClassBenefits"></div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-dark">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <a href="/#register-section" class="btn btn-danger text-uppercase fw-bold">Đăng Ký Lớp Này</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showClassDetail(title, desc, calories, audience, benefits, schedule, trainer) {
+        document.getElementById('mClassTitle').innerText = title;
+        document.getElementById('mClassDesc').innerText = desc;
+        document.getElementById('mClassCalories').innerText = calories;
+        document.getElementById('mClassAudience').innerText = audience;
+        document.getElementById('mClassBenefits').innerText = benefits;
+        var myModal = new bootstrap.Modal(document.getElementById('classDetailModal'));
+        myModal.show();
+    }
+</script>

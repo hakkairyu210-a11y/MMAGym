@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MMA Sài Gòn</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MMA.styles.css" asp-append-version="true" />
+</head>
+<body>
+    @{
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    }
+    <!-- Top Contact Bar -->
+    <div class="top-contact-bar d-none d-lg-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="top-left d-flex gap-4">
+                <span><i class="fas fa-map-marker-alt text-danger me-2"></i><strong>Địa chỉ:</strong> 23 Dương Quang Đông, Chánh Hưng, Q8, TP.HCM</span>
+                <span><i class="fas fa-envelope text-danger me-2"></i><strong>E-mail:</strong> <a href="mailto:mmasaigon@gmail.com" class="text-white text-decoration-none">mmasaigon@gmail.com</a></span>
+            </div>
+            <div class="top-right d-flex gap-4">
+                <span><i class="fas fa-clock text-danger me-2"></i><strong>Giờ mở cửa:</strong> Cả tuần: 5:30 - 22:00</span>
+                <span><i class="fas fa-phone text-danger me-2"></i><strong>SĐT:</strong> 0947 054 075</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg py-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="~/images/mma-logo.svg" alt="MMA Logo" class="header-logo" style="height: 48px; width: auto;">
+                </a>
+                <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars fs-3 text-white"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 header-menu-list">
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "Index" ? "active" : "")" href="/">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "GioiThieu" ? "active" : "")" href="/gioi-thieu">Giới thiệu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "LopHoc" ? "active" : "")" href="/lop-hoc">Lớp học</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "HuanLuyenVien" ? "active" : "")" href="/huan-luyen-vien">Huấn luyện viên</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "LichHoc" ? "active" : "")" href="/lich-hoc">Lịch học</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "TinTuc" ? "active" : "")" href="/tin-tuc">Tin tức</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "CauLacBo" ? "active" : "")" href="/cau-lac-bo">Câu lạc bộ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(currentAction == "LienHe" ? "active" : "")" href="/lien-he">Liên hệ</a>
+                        </li>
+                    </ul>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var sessionUserName = HttpContextAccessor.HttpContext?.Session.GetString("UserName") ?? TempData["UserName"]?.ToString();
+    var sessionUserRole = HttpContextAccessor.HttpContext?.Session.GetString("UserRole") ?? TempData["UserRole"]?.ToString();
+    bool isUserLoggedIn = !string.IsNullOrEmpty(sessionUserName);
+    bool isAdminUser = sessionUserRole == "Admin";
+}
+                    <div class="d-flex align-items-center gap-3 ms-lg-3 mt-3 mt-lg-0">
+                        <!-- User Icon Dropdown Button -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-danger text-white rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" type="button" id="userMenuDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 42px; height: 42px; border-width: 2px;">
+                                <i class="fas fa-user fs-5"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-secondary border-opacity-25 mt-2" aria-labelledby="userMenuDropdown">
+                                @if (isUserLoggedIn)
+                                {
+                                    <li><span class="dropdown-header text-danger fw-bold uppercase">Xin chào, @sessionUserName</span></li>
+                                    <li><a class="dropdown-item text-sm py-2 text-warning fw-bold" href="/the-tap-cua-toi"><i class="fas fa-id-card me-2"></i>Thẻ Tập Của Tôi</a></li>
+                                    @if (isAdminUser)
+                                    {
+                                        <li><a class="dropdown-item text-sm py-2 text-info fw-bold" href="/admin"><i class="fas fa-user-shield me-2 text-warning"></i>Trang Quản Trị Admin</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider border-secondary border-opacity-25"></li>
+                                    <li><a class="dropdown-item text-sm py-2 text-danger" href="/dang-xuat"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                                }
+                                else
+                                {
+                                    <li><a class="dropdown-item text-sm py-2" href="/dang-nhap"><i class="fas fa-sign-in-alt me-2 text-danger"></i>Đăng nhập tài khoản</a></li>
+                                    <li><a class="dropdown-item text-sm py-2" href="/dang-ky"><i class="fas fa-user-plus me-2 text-warning"></i>Đăng ký hội viên mới</a></li>
+                                }
+                            </ul>
+                        </div>
+
+                        <a href="/lien-he" class="btn btn-danger header-cta-btn text-uppercase px-3 py-2 text-xs">
+                            <i class="fas fa-plus me-1"></i> ĐĂNG KÝ LUYỆN TẬP
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer pt-5 pb-3">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Column 1: Logo & About -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-about-col">
+                        <img src="~/images/mma-logo.svg" alt="MMA Logo" class="footer-logo mb-4" style="height: 54px; width: auto;">
+                        <h4 class="footer-widget-title">Giới thiệu</h4>
+                        <p class="footer-text text-justify">
+                            MMA là hệ thống phòng tập chuyên sâu về Gym, Boxing, Muay Thai và Yoga, lấy kết quả thật và sự đồng hành làm cốt lõi.
+                        </p>
+                        <div class="footer-social-links d-flex gap-3 mt-4">
+                            <a href="https://www.facebook.com/share/1CHALPwMz8/?mibextid=wwXIfr" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/hug.mahn/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="footer-phone mt-3">
+                            <i class="fas fa-phone-alt text-danger me-2"></i> <a href="tel:0947054075" class="text-decoration-none text-white fw-bold">0947 054 075</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Branches -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-branches-col">
+                        <h4 class="footer-widget-title">Chi nhánh 1</h4>
+                        <ul class="list-unstyled footer-branch-list">
+                            <li><i class="fas fa-map-marker-alt text-danger me-2"></i> 23 Dương Quang Đông, Chánh Hưng, Q8, TP.HCM</li>
+                            <li><i class="fas fa-map-marker-alt text-danger me-2"></i> 105 Đ. Lý Chiêu Hoàng, Khu V, Bình Phú, Q6, TP.HCM</li>
+                            <li><i class="fas fa-map-marker-alt text-danger me-2"></i> 448 Tân Sơn Nhì, Phường Phú Thọ Hòa, Tân Phú, TP.HCM</li>
+                        </ul>
+                        <h4 class="footer-widget-title mt-4">Chi nhánh 2</h4>
+                        <ul class="list-unstyled footer-branch-list">
+                            <li><i class="fas fa-map-marker-alt text-danger me-2"></i> Topaz City Block B2, 39 Cao Lỗ, Chánh Hưng, Q8, TP.HCM</li>
+                            <li><i class="fas fa-map-marker-alt text-danger me-2"></i> Nhà thi đấu Rạch Miễu, 1 Đ. Hoa Phượng, Phú Nhuận, TP.HCM</li>
+                            <li><i class="fas fa-map-marker-alt text-danger me-2"></i> 360 Hai Bà Trưng, Tân Định, Q1, TP.HCM</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Column 3: Quick Links & Map -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer-links-col">
+                        <h4 class="footer-widget-title">Link nhanh</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <ul class="list-unstyled footer-quick-links">
+                                    <li><a href="/">Trang chủ</a></li>
+                                    <li><a href="/gioi-thieu">Giới thiệu</a></li>
+                                    <li><a href="/lop-hoc">Lớp học</a></li>
+                                    <li><a href="/huan-luyen-vien">Huấn luyện viên</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <ul class="list-unstyled footer-quick-links">
+                                    <li><a href="/lich-hoc">Lịch học</a></li>
+                                    <li><a href="/tin-tuc">Tin tức</a></li>
+                                    <li><a href="/cau-lac-bo">Câu lạc bộ</a></li>
+                                    <li><a href="/lien-he">Liên hệ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="footer-divider my-4">
+
+            <div class="footer-bottom-bar text-center text-muted">
+                <p class="mb-0">&copy; @DateTime.Now.Year - MMA Sài Gòn. All Rights Reserved. Designed by Antigravity.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Form submission custom toast notification -->
+    @if (TempData["FormSuccess"] != null && (bool?)TempData["FormSuccess"] == true)
+    {
+        <div class="toast-container-custom" id="toastSuccess">
+            <div class="toast-success-custom">
+                <i class="fas fa-check-circle fs-4 text-success animate__animated animate__bounceIn"></i>
+                <div>
+                    <strong>Đăng ký thành công!</strong> Cảm ơn @TempData["SubmittedName"] đã đăng ký. HLV MMA sẽ liên hệ tư vấn sớm nhất.
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

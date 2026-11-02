@@ -1,0 +1,244 @@
+@model MMA.Models.AdminDashboardViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Tổng Quan Hệ Thống";
+}
+
+<!-- Quick Management & Media Control Bar -->
+<div class="card bg-dark border-danger border-opacity-50 p-4 rounded-4 shadow-lg mb-4 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(20, 20, 20, 0.95) 100%);">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative z-1">
+        <div>
+            <span class="badge bg-danger text-uppercase px-2.5 py-1 mb-2 fw-bold text-xs"><i class="fas fa-sliders me-1"></i> Bảng Điều Khiển Quản Trị Trung Tâm</span>
+            <h4 class="text-white fw-bold mb-1">Cập Nhật Ảnh & Đồng Bộ Hệ Thống Realtime</h4>
+            <p class="text-white-50 text-xs mb-0">Thay đổi ảnh phòng tập, hình chân dung HLV, lịch tập hoặc danh mục môn học lập tức cập nhật ra trang chủ.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="/admin/cau-lac-bo" class="btn btn-danger btn-sm text-xs fw-bold px-3 py-2 shadow"><i class="fas fa-camera me-1.5"></i> Đổi Ảnh Phòng Tập</a>
+            <a href="/admin/huan-luyen-vien" class="btn btn-outline-danger btn-sm text-xs fw-bold px-3 py-2"><i class="fas fa-user-circle me-1.5"></i> Đổi Ảnh HLV</a>
+            <a href="/admin/lich-tap" class="btn btn-outline-warning btn-sm text-xs fw-bold px-3 py-2"><i class="fas fa-calendar-alt me-1.5"></i> Sửa Lịch Tập</a>
+            <a href="/admin/lop-hoc" class="btn btn-outline-info btn-sm text-xs fw-bold px-3 py-2"><i class="fas fa-dumbbell me-1.5"></i> Sửa Lớp Học</a>
+        </div>
+    </div>
+</div>
+
+<!-- Stat Cards Grid -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <a href="/admin/hoi-vien" class="text-decoration-none">
+            <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 shadow-sm h-100 card-hover">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-white-50 text-xs fw-bold text-uppercase">Tổng Hội Viên</span>
+                    <div class="badge bg-danger bg-opacity-25 text-danger fs-5 rounded-3 p-2">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <h2 class="text-white fw-black mb-1">@Model.TotalMembers.ToString("N0")</h2>
+                <div class="text-xs text-success d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-arrow-up me-1"></i>Tăng trưởng tốt</span>
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">Quản lý <i class="fas fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 shadow-sm h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-white-50 text-xs fw-bold text-uppercase">Doanh Thu Đã Duyệt</span>
+                <div class="badge bg-success bg-opacity-25 text-success fs-5 rounded-3 p-2">
+                    <i class="fas fa-wallet"></i>
+                </div>
+            </div>
+            <h2 class="text-white fw-black mb-1">@Model.MonthlyRevenue.ToString("N0") đ</h2>
+            <div class="text-xs text-success"><i class="fas fa-check-circle me-1"></i>Thực thu đã kích hoạt</div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <a href="/admin/lop-hoc" class="text-decoration-none">
+            <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 shadow-sm h-100 card-hover">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-white-50 text-xs fw-bold text-uppercase">Môn Học & Lớp Tập</span>
+                    <div class="badge bg-warning bg-opacity-25 text-warning fs-5 rounded-3 p-2">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                </div>
+                <h2 class="text-white fw-black mb-1">@Model.TotalClasses</h2>
+                <div class="text-xs text-warning d-flex justify-content-between align-items-center">
+                    <span>MMA, Boxing, Muay Thái...</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">Chỉnh sửa <i class="fas fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <a href="/admin/huan-luyen-vien" class="text-decoration-none">
+            <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 shadow-sm h-100 card-hover">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-white-50 text-xs fw-bold text-uppercase">Đội Nữ HLV Quốc Gia</span>
+                    <div class="badge bg-info bg-opacity-25 text-info fs-5 rounded-3 p-2">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                </div>
+                <h2 class="text-white fw-black mb-1">@Model.TotalTrainers</h2>
+                <div class="text-xs text-info d-flex justify-content-between align-items-center">
+                    <span>Chuyên gia Boxing & MMA</span>
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">Xem HLV <i class="fas fa-arrow-right ms-1"></i></span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Main Tables Row -->
+<div class="row g-4">
+    <!-- Left Column: Pending Consultation Registrations -->
+    <div class="col-lg-7">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+            <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="card-title text-white fw-bold mb-0"><i class="fas fa-clock text-warning me-2"></i>Đăng Ký Tư Vấn Mới</h5>
+                <a href="/admin/hoi-vien" class="btn btn-outline-danger btn-sm text-xs">Xem tất cả</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover mb-0 text-sm align-middle">
+                        <thead class="table-secondary text-uppercase text-xs text-white-50">
+                            <tr>
+                                <th class="ps-4">Họ và tên</th>
+                                <th>Số điện thoại</th>
+                                <th>Bộ môn quan tâm</th>
+                                <th>Trạng thái</th>
+                                <th class="pe-4 text-end">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PendingRegistrations)
+                            {
+                                <tr>
+                                    <td class="ps-4">
+                                        <div class="fw-bold text-white">@item.Name</div>
+                                        <div class="text-xs text-white-50">@item.Email</div>
+                                    </td>
+                                    <td><span class="font-monospace">@item.Phone</span></td>
+                                    <td><span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs">@item.SelectedClass</span></td>
+                                    <td>
+                                        @if (item.IsApproved)
+                                        {
+                                            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-check-circle me-1"></i> Đã Kích Hoạt</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-clock me-1"></i> Chưa Phê Duyệt</span>
+                                        }
+                                    </td>
+                                    <td class="pe-4 text-end">
+                                        <button type="button" class="btn btn-sm btn-outline-info text-xs me-1 shadow-sm" onclick="showOrderDetail('@item.InvoiceCode', '@item.Name', '@item.Phone', '@item.Email', '@item.SelectedClass', '@item.Amount.ToString("N0")đ', '@item.BranchName', '@item.TrainerName', '@item.PaymentMethod', '@item.Status')">
+                                            <i class="fas fa-eye me-1"></i> Chi Tiết
+                                        </button>
+                                        @if (!item.IsApproved)
+                                        {
+                                            <form asp-controller="Admin" asp-action="ApproveRegistration" method="POST" class="d-inline">
+                                                <input type="hidden" name="orderId" value="@item.OrderId" />
+                                                <button type="submit" class="btn btn-sm btn-success text-xs fw-bold px-3 shadow-sm"><i class="fas fa-check-circle me-1"></i> Phê Duyệt</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Recent Active Members -->
+    <div class="col-lg-5">
+        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+            <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="card-title text-white fw-bold mb-0"><i class="fas fa-user-check text-success me-2"></i>Hội Viên Mới Đăng Ký</h5>
+                <a href="/admin/hoi-vien" class="btn btn-outline-danger btn-sm text-xs">Quản lý</a>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush bg-transparent">
+                    @foreach (var member in Model.RecentMembers)
+                    {
+                        <li class="list-group-item bg-transparent text-white border-bottom border-secondary border-opacity-25 py-3 px-4 d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="@member.AvatarUrl" class="rounded-circle" style="width: 42px; height: 42px; object-fit: cover;" alt="Member Avatar">
+                                <div>
+                                    <div class="fw-bold text-white text-sm">@member.FullName</div>
+                                    <div class="text-xs text-white-50">@member.Role • @member.Phone</div>
+                                </div>
+                            </div>
+                            <status-badge status="Active" text="@member.Status" />
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xem Chi Tiết Đơn Đăng Ký Hội Viên -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-file-invoice text-danger me-2"></i>Chi Tiết Đơn Đăng Ký Hội Viên</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="p-3 bg-black rounded-3 mb-3 border border-secondary border-opacity-25 text-xs">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-white-50">Mã Hóa Đơn:</span>
+                        <strong class="text-danger font-monospace fs-6" id="odInvoiceCode">HD-2026-001</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-white-50">Trạng Thái:</span>
+                        <span class="badge bg-success" id="odStatus">Đã hoạt động</span>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-dark rounded-3 mb-3 border border-secondary border-opacity-25 text-xs">
+                    <div class="fw-bold text-white text-sm mb-2"><i class="fas fa-user text-primary me-2"></i>Thông Tin Học Viên</div>
+                    <div class="mb-1"><span class="text-white-50">Họ và tên:</span> <strong class="text-white" id="odName">Nguyễn Hùng Mạnh</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Số điện thoại:</span> <strong class="text-white" id="odPhone">0947054075</strong></div>
+                    <div><span class="text-white-50">Email:</span> <strong class="text-white" id="odEmail">nguyenmanh@gmail.com</strong></div>
+                </div>
+
+                <div class="p-3 bg-dark rounded-3 mb-3 border border-secondary border-opacity-25 text-xs">
+                    <div class="fw-bold text-white text-sm mb-2"><i class="fas fa-dumbbell text-warning me-2"></i>Dịch Vụ & Lớp Học</div>
+                    <div class="mb-1"><span class="text-white-50">Gói tập / Môn học:</span> <strong class="text-warning" id="odClass">Gói 12 Tháng (1 Năm) VIP</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Tổng giá tiền:</span> <strong class="text-danger fs-6" id="odAmount">7,990,000 đ</strong></div>
+                    <div class="mb-1"><span class="text-white-50">Chi nhánh tập luyện:</span> <strong class="text-white" id="odBranch">MMA - Dương Quang Đông (Q8)</strong></div>
+                    <div><span class="text-white-50">Huấn luyện viên phụ trách:</span> <strong class="text-white" id="odTrainer">Văn Bá Huyên (Senior Coach)</strong></div>
+                </div>
+
+                <div class="p-3 bg-black rounded-3 text-xs border border-secondary border-opacity-25">
+                    <div class="text-white-50 mb-1">Phương Thức Thanh Toán:</div>
+                    <strong class="text-info fs-6" id="odPaymentMethod">Ví Momo Online</strong>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-dark">
+                <button type="button" class="btn btn-secondary w-100 fw-bold" data-bs-dismiss="modal">Đóng Trả Lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showOrderDetail(invoice, name, phone, email, selectedClass, amount, branch, trainer, payMethod, status) {
+        document.getElementById('odInvoiceCode').innerText = invoice || 'HD-2026-001';
+        document.getElementById('odName').innerText = name;
+        document.getElementById('odPhone').innerText = phone;
+        document.getElementById('odEmail').innerText = email;
+        document.getElementById('odClass').innerText = selectedClass;
+        document.getElementById('odAmount').innerText = amount;
+        document.getElementById('odBranch').innerText = branch;
+        document.getElementById('odTrainer').innerText = trainer;
+        document.getElementById('odPaymentMethod').innerText = payMethod;
+        document.getElementById('odStatus').innerText = status;
+
+        var modal = new bootstrap.Modal(document.getElementById('orderDetailModal'));
+        modal.show();
+    }
+</script>

@@ -1,0 +1,150 @@
+@model List<MMA.Models.Entities.BoMonEntity>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Lớp Học & Bộ Môn";
+}
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="text-white-50 text-sm mb-0">Quản lý các môn võ thuật, lớp học fitness và giáo trình giảng dạy tại hệ thống MMA.</p>
+    </div>
+    <button class="btn btn-danger text-uppercase fw-bold px-3 py-2 text-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#addClassModal">
+        <i class="fas fa-plus me-2"></i>Thêm Lớp Học Mới
+    </button>
+</div>
+
+<!-- Classes Management Table -->
+<div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover mb-0 text-sm align-middle">
+                <thead class="table-secondary text-uppercase text-xs text-white-50">
+                    <tr>
+                        <th class="ps-4">Tên môn / Lớp học</th>
+                        <th>Mô tả chi tiết</th>
+                        <th>Trạng thái</th>
+                        <th class="pe-4 text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-danger bg-opacity-25 text-danger rounded-3 p-2 text-center" style="width: 40px;"><i class="fas fa-hand-fist fs-5"></i></div>
+                                        <div>
+                                            <div class="fw-bold text-white fs-6">@item.TenBoMon</div>
+                                            <div class="text-xs text-white-50">Mã môn: #@item.MaBoMon</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="text-white-50 text-xs">@item.MoTa</span></td>
+                                <td><span class="badge bg-success bg-opacity-25 text-success">Đang vận hành</span></td>
+                                <td class="pe-4 text-end">
+                                    <button type="button" class="btn btn-sm btn-outline-info text-xs me-1" onclick="openEditClass('@item.MaBoMon', '@item.TenBoMon', '@item.MoTa')">
+                                        <i class="fas fa-edit me-1"></i> Sửa
+                                    </button>
+                                    <form asp-controller="Admin" asp-action="DeleteClass" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lớp học này?');">
+                                        <input type="hidden" name="id" value="@item.MaBoMon" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i> Xóa</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-bold text-white fs-6">MMA - Mixed Martial Arts</div>
+                            </td>
+                            <td><span class="text-white-50 text-xs">Võ thuật tự do thực chiến đỉnh cao</span></td>
+                            <td><span class="badge bg-success bg-opacity-25 text-success">Đang vận hành</span></td>
+                            <td class="pe-4 text-end">
+                                <button class="btn btn-sm btn-outline-info me-1 text-xs"><i class="fas fa-edit me-1"></i> Sửa</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Add Class -->
+<div class="modal fade" id="addClassModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-hand-fist text-danger me-2"></i>Thêm Lớp Học / Môn Học Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="CreateClass" method="POST">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Tên lớp học / bộ môn *</label>
+                        <input type="text" name="TenBoMon" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: Kickboxing Cardio" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Mô tả chương trình học *</label>
+                        <textarea name="MoTa" class="form-control bg-black text-white border-secondary" rows="3" placeholder="Ví dụ: Rèn luyện khả năng tự vệ và đốt cháy 800kcal calo/buổi tập..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold text-uppercase">Lưu Lớp Học</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Class -->
+<div class="modal fade" id="editClassModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-edit text-warning me-2"></i>Chỉnh Sửa Thông Tin Lớp Học</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="EditClass" method="POST">
+                <input type="hidden" name="MaBoMon" id="editClassId" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Tên lớp học / bộ môn *</label>
+                        <input type="text" name="TenBoMon" id="editClassName" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Mô tả chương trình học *</label>
+                        <textarea name="MoTa" id="editClassDesc" class="form-control bg-black text-white border-secondary" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold text-uppercase">Cập Nhật Lớp Học</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditClass(id, name, desc) {
+        document.getElementById('editClassId').value = id;
+        document.getElementById('editClassName').value = name;
+        document.getElementById('editClassDesc').value = desc;
+
+        var modal = new bootstrap.Modal(document.getElementById('editClassModal'));
+        modal.show();
+    }
+</script>

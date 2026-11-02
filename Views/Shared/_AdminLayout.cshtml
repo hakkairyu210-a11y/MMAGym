@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MMA Sài Gòn Admin Portal</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MMA.styles.css" asp-append-version="true" />
+</head>
+<body class="admin-body bg-black text-light">
+
+    <div class="admin-wrapper d-flex min-vh-100">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar bg-dark border-end border-secondary border-opacity-25 p-3 d-flex flex-column" style="width: 260px; min-width: 260px;">
+            <!-- Admin Brand -->
+            <div class="admin-brand d-flex align-items-center gap-3 p-2 mb-4 border-bottom border-secondary border-opacity-25 pb-3">
+                <div class="brand-icon bg-danger text-white rounded-3 d-flex align-items-center justify-content-center fw-bold fs-4" style="width: 42px; height: 42px;">
+                    MMA
+                </div>
+                <div>
+                    <h5 class="mb-0 text-white fw-bold tracking-wide">MMA ADMIN</h5>
+                    <span class="text-xs text-danger uppercase font-monospace">Management Portal</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            @{
+                var currentPath = Context.Request.Path.Value?.ToLower() ?? "";
+            }
+            <nav class="admin-nav flex-grow-1">
+                <div class="text-xs text-uppercase text-white-50 fw-bold px-3 mb-2">Menu chính</div>
+                <ul class="nav nav-pills flex-column gap-1">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-chart-line fs-5"></i>
+                            <span>Tổng Quan (Dashboard)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/lop-hoc" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/lop-hoc" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-dumbbell fs-5"></i>
+                            <span>Quản Lý Lớp Học</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/huan-luyen-vien" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/huan-luyen-vien" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-user-ninja fs-5"></i>
+                            <span>Huấn Luyện Viên</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/hoi-vien" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/hoi-vien" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-users fs-5"></i>
+                            <span>Hội Viên & Đăng Ký</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/goi-tap" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/goi-tap" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-box-archive fs-5"></i>
+                            <span>Quản Lý Gói Tập</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/thanh-toan" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/thanh-toan" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-credit-card fs-5"></i>
+                            <span>Quản Lý Thanh Toán</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/lich-tap" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/lich-tap" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-calendar-alt fs-5"></i>
+                            <span>Quản Lý Lịch Tập</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/cau-lac-bo" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 @(currentPath == "/admin/cau-lac-bo" ? "active bg-danger text-white fw-bold" : "hover-dark-bg")">
+                            <i class="fas fa-building fs-5"></i>
+                            <span>Câu Lạc Bộ / Chi Nhánh</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="text-xs text-uppercase text-white-50 fw-bold px-3 mt-4 mb-2">Hệ thống</div>
+                <ul class="nav nav-pills flex-column gap-1">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link text-white-50 d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 hover-dark-bg">
+                            <i class="fas fa-globe fs-5"></i>
+                            <span>Xem Trang Chủ Web</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/dang-xuat" class="nav-link text-danger d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 hover-dark-bg">
+                            <i class="fas fa-sign-out-alt fs-5"></i>
+                            <span>Đăng Xuất</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Admin User Footer Badge -->
+            <div class="admin-user-profile bg-black p-3 rounded-3 border border-secondary border-opacity-25 d-flex align-items-center gap-3">
+                <img src="https://fitbox.vn/wp-content/uploads/2026/05/HOI-VIEN-SY-NGUYEN-150x150.png" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" alt="Admin Avatar">
+                <div class="overflow-hidden">
+                    <div class="text-white text-sm fw-bold text-truncate">Quản Trị Viên</div>
+                    <div class="text-xs text-success"><i class="fas fa-circle me-1 text-xs"></i> Đang hoạt động</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Admin Content Area -->
+        <main class="admin-main flex-grow-1 d-flex flex-column bg-black text-light">
+            <!-- Top Admin Header -->
+            <header class="admin-header bg-dark border-bottom border-secondary border-opacity-25 px-4 py-3 d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <h4 class="mb-0 text-white fw-bold">@ViewData["Title"]</h4>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <form method="GET" action="/admin/hoi-vien" class="input-group input-group-sm" style="width: 280px;">
+                        <input type="text" name="q" class="form-control bg-black text-white border-secondary border-opacity-50" placeholder="Tìm kiếm tên, SĐT, email, mã HD..." value="@Context.Request.Query["q"]">
+                        <button class="btn btn-danger" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <div class="dropdown">
+                        <button class="btn btn-dark border border-secondary border-opacity-25 text-white dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-shield me-2 text-danger"></i> Admin Portal
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow">
+                            <li><a class="dropdown-menu-item text-light p-2 px-3 text-sm d-block text-decoration-none" href="/"><i class="fas fa-home me-2"></i>Trang khách</a></li>
+                            <li><hr class="dropdown-divider border-secondary"></li>
+                            <li><a class="dropdown-menu-item text-danger p-2 px-3 text-sm d-block text-decoration-none" href="/dang-xuat"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Container -->
+            <div class="admin-content p-4 flex-grow-1">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

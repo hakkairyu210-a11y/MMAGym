@@ -1,0 +1,99 @@
+@model List<MMA.Models.NewsModel>
+@{
+    ViewData["Title"] = "Tin tức - Chia sẻ kiến thức Gym & Võ Thuật";
+}
+
+<!-- Entry Banner Section -->
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Tin tức</h1>
+        <div class="breadcrumb-area">
+            <a href="/">MMA Sài Gòn</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">Tin tức</span>
+        </div>
+    </div>
+</section>
+
+<!-- Blog List Content Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Column: Blog Feed -->
+            <div class="col-lg-8 col-md-12 text-dark">
+                <div class="row g-4">
+                    @foreach (var post in Model)
+                    {
+                        <!-- Post item -->
+                        <div class="col-12">
+                            <article class="blog-list-card bg-white shadow-sm rounded overflow-hidden mb-4 d-flex flex-column flex-md-row">
+                                <div class="blog-list-img-wrap position-relative col-md-5" style="min-height: 250px;">
+                                    <img src="@post.ImageUrl" alt="@post.Title" class="w-100 h-100 object-fit-cover">
+                                    <span class="badge bg-danger position-absolute top-3 start-3 text-uppercase">@post.Category</span>
+                                </div>
+                                <div class="blog-list-content p-4 col-md-7 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="blog-meta text-muted text-xs mb-2">
+                                            <span><i class="far fa-user me-1"></i> @post.Author</span>
+                                            <span class="ms-3"><i class="far fa-calendar-alt me-1"></i> @post.Date</span>
+                                        </div>
+                                        <h3 class="blog-title fs-5 fw-bold mb-2"><a href="#" class="text-dark hover-danger text-decoration-none">@post.Title</a></h3>
+                                        <p class="blog-excerpt text-muted text-sm line-clamp-3">@post.Excerpt</p>
+                                    </div>
+                                    <a href="#" class="btn btn-link text-danger p-0 mt-3 text-start text-decoration-none fw-bold text-sm text-uppercase">Xem thêm <i class="fas fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                <nav class="mt-5" aria-label="Blog pagination">
+                    <ul class="pagination justify-content-center gap-2">
+                        <li class="page-item active"><span class="page-link bg-danger border-danger">1</span></li>
+                        <li class="page-item"><a class="page-link text-danger border-light" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link text-danger border-light" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link text-danger border-light" href="#" aria-label="Next">&raquo;</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Right Column: Sidebar Widget Area -->
+            <div class="col-lg-4 col-md-12">
+                <aside class="sidebar-widget bg-white shadow-sm p-4 rounded text-dark">
+                    <!-- Widget 1: Search -->
+                    <div class="widget-item mb-5">
+                        <h4 class="widget-title border-bottom-danger-3 pb-2 mb-3 fw-bold text-uppercase">Tìm kiếm</h4>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm bài viết...">
+                            <button class="btn btn-danger" type="button"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Widget 2: Categories -->
+                    <div class="widget-item">
+                        <h4 class="widget-title border-bottom-danger-3 pb-2 mb-3 fw-bold text-uppercase">Danh mục</h4>
+                        <ul class="list-unstyled sidebar-category-list">
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="/cau-lac-bo" class="text-decoration-none text-dark hover-danger fw-medium">Câu lạc bộ</a>
+                                <span class="text-muted">(6)</span>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="#" class="text-decoration-none text-dark hover-danger fw-medium">Khuyến mãi</a>
+                                <span class="text-muted">(1)</span>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="#" class="text-decoration-none text-dark hover-danger fw-medium">Kiến thức dinh dưỡng</a>
+                                <span class="text-muted">(4)</span>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="/lop-hoc" class="text-decoration-none text-dark hover-danger fw-medium">Thư viện bài tập</a>
+                                <span class="text-muted">(45)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>

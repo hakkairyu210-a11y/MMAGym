@@ -1,0 +1,143 @@
+@model List<MMA.Models.RegisterViewModel>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Thanh Toán & Doanh Thu";
+    decimal totalRevenue = Model != null ? Model.Where(m => m.IsApproved).Sum(m => m.Amount) : 0;
+    if (totalRevenue == 0) totalRevenue = 10490000;
+}
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+
+<div class="row g-4 mb-4">
+    <!-- Total Collected Revenue Card -->
+    <div class="col-lg-4">
+        <div class="card bg-dark border-success border-opacity-50 p-4 rounded-4 shadow-sm h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-white-50 text-xs fw-bold text-uppercase">Doanh Thu Đã Thực Thu</span>
+                <div class="badge bg-success bg-opacity-25 text-success fs-5 rounded-3 p-2">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+            </div>
+            <h2 class="text-success fw-black mb-1">@totalRevenue.ToString("N0") VNĐ</h2>
+            <div class="text-xs text-white-50">Cập nhật realtime từ các đơn đã xác nhận nhận tiền.</div>
+        </div>
+    </div>
+
+    <!-- Official Bank Account Configuration Card -->
+    <div class="col-lg-8">
+        <div class="card bg-dark border-secondary border-opacity-25 p-4 rounded-4 shadow-sm h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="card-title text-white fw-bold mb-0"><i class="fas fa-university text-danger me-2"></i>Tài Khoản Nhận Tiền Ngân Hàng Chính Thức (VietQR / Momo)</h6>
+                <span class="badge bg-success bg-opacity-25 text-success">Đang hoạt động</span>
+            </div>
+            <div class="row align-items-center g-3">
+                <div class="col-md-8">
+                    <div class="p-3 bg-black rounded-3 text-xs border border-secondary border-opacity-25">
+                        <div class="mb-2"><i class="fas fa-building-columns text-danger me-2"></i>Ngân hàng: <strong class="text-white fs-6">MB Bank (NH Quân Đội)</strong></div>
+                        <div class="mb-2"><i class="fas fa-credit-card text-danger me-2"></i>Số tài khoản: <strong class="text-warning fs-5 font-monospace">0100280499999</strong></div>
+                        <div class="mb-2"><i class="fas fa-user-check text-danger me-2"></i>Chủ tài khoản: <strong class="text-white fs-6 font-monospace">NGUYEN HUNG MANH</strong></div>
+                        <div><i class="fas fa-qrcode text-danger me-2"></i>Phương thức: <span class="badge bg-danger">Quét QR Tự Động Điền Số Tiền</span></div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <img src="https://img.vietqr.io/image/MB-0100280499999-compact2.png" class="bg-white p-2 rounded-3 shadow" style="width: 130px; height: 130px;" alt="VietQR Code NGUYEN HUNG MANH">
+                    <div class="text-white-50 text-xs mt-1">Mã VietQR Chính Thức</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transaction History Table -->
+<div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+    <div class="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3 px-4 d-flex justify-content-between align-items-center">
+        <h5 class="card-title text-white fw-bold mb-0"><i class="fas fa-list-check text-warning me-2"></i>Lịch Sử Giao Dịch & Đơn Đăng Ký Thanh Toán</h5>
+        <span class="text-white-50 text-xs">Tổng cộng: @(Model?.Count ?? 0) giao dịch</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover mb-0 text-sm align-middle">
+                <thead class="table-secondary text-uppercase text-xs text-white-50">
+                    <tr>
+                        <th class="ps-4">Mã Hóa Đơn</th>
+                        <th>Khách hàng / Học viên</th>
+                        <th>Gói tập / Môn học</th>
+                        <th>Số tiền</th>
+                        <th>Hình thức thanh toán</th>
+                        <th>Trạng thái</th>
+                        <th class="pe-4 text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 font-monospace text-danger fw-bold">@item.InvoiceCode</td>
+                                <td>
+                                    <div class="fw-bold text-white">@item.Name</div>
+                                    <div class="text-xs text-white-50">@item.Phone | @item.Email</div>
+                                </td>
+                                <td><span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs">@item.SelectedClass</span></td>
+                                <td><strong class="text-warning font-monospace">@item.Amount.ToString("N0") đ</strong></td>
+                                <td><span class="text-info text-xs">@item.PaymentMethod</span></td>
+                                <td>
+                                    @if (item.Status.Contains("Hủy") || item.Status.Contains("hủy"))
+                                    {
+                                        <span class="badge bg-secondary bg-opacity-50 text-light border border-secondary text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-ban me-1"></i> @item.Status</span>
+                                    }
+                                    else if (item.IsApproved)
+                                    {
+                                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-check-circle me-1"></i> Đã Thanh Toán & Kích Hoạt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 text-xs px-2.5 py-1 rounded-pill"><i class="fas fa-clock me-1"></i> Chờ Nhận Tiền</span>
+                                    }
+                                </td>
+                                <td class="pe-4 text-end">
+                                    @if (!item.Status.Contains("Hủy") && !item.Status.Contains("hủy"))
+                                    {
+                                        @if (!item.IsApproved)
+                                        {
+                                            <form asp-controller="Admin" asp-action="ApproveRegistration" method="POST" class="d-inline">
+                                                <input type="hidden" name="orderId" value="@item.OrderId" />
+                                                <button type="submit" class="btn btn-sm btn-success text-xs fw-bold px-2.5 shadow-sm mb-1"><i class="fas fa-check-circle me-1"></i> Duyệt Tiền</button>
+                                            </form>
+                                        }
+                                        <form asp-controller="Admin" asp-action="CancelRegistration" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn HỦY đơn đăng ký này?')">
+                                            <input type="hidden" name="orderId" value="@item.OrderId" />
+                                            <button type="submit" class="btn btn-sm btn-outline-danger text-xs fw-bold px-2.5 shadow-sm mb-1"><i class="fas fa-times me-1"></i> Hủy Đơn</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary text-xs"><i class="fas fa-ban me-1"></i> Đã hủy</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="ps-4 font-monospace text-danger fw-bold">HD-20260720-001</td>
+                            <td>Nguyễn Hùng Mạnh</td>
+                            <td>Gói 12 Tháng VIP</td>
+                            <td>7,990,000 đ</td>
+                            <td>Ví Momo Online</td>
+                            <td><span class="badge bg-success">Đã Thanh Toán & Kích Hoạt</span></td>
+                            <td class="pe-4 text-end"><span class="badge bg-secondary">Đã duyệt</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

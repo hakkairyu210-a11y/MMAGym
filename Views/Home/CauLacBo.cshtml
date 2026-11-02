@@ -1,0 +1,83 @@
+@model List<MMA.Models.ClubModel>
+@{
+    ViewData["Title"] = "Câu lạc bộ - Hệ thống phòng tập MMA";
+}
+
+<!-- Entry Banner Section -->
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Câu lạc bộ</h1>
+        <div class="breadcrumb-area">
+            <a href="/">MMA Sài Gòn</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">Câu lạc bộ</span>
+        </div>
+    </div>
+</section>
+
+<!-- Clubs Feed Layout Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Column: Clubs List Grid -->
+            <div class="col-lg-8 col-md-12 text-dark">
+                <div class="row g-4">
+                    @foreach (var club in Model)
+                    {
+                        <!-- Club card item -->
+                        <div class="col-md-6 col-12">
+                            <div class="club-card bg-white shadow-sm rounded overflow-hidden h-100">
+                                <div class="club-img-wrapper position-relative overflow-hidden" style="height: 240px;">
+                                    <img src="@club.ImageUrl" alt="@club.Name" class="w-100 h-100 object-fit-cover transition-transform">
+                                    <span class="club-date-badge position-absolute top-3 start-3 bg-danger text-white px-3 py-1 text-xs fw-bold rounded">@club.Date</span>
+                                </div>
+                                <div class="p-4">
+                                    <div class="blog-cat mb-2"><a href="/cau-lac-bo" class="text-danger text-decoration-none text-xs fw-bold text-uppercase">Câu lạc bộ</a></div>
+                                    <h3 class="club-title fs-5 mb-2 fw-bold"><a href="#" class="text-dark hover-danger text-decoration-none">@club.Name</a></h3>
+                                    <p class="club-address text-muted text-sm mb-0"><i class="fas fa-map-marker-alt text-danger me-2"></i>@club.Address</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Right Column: Sidebar Widget Area -->
+            <div class="col-lg-4 col-md-12">
+                <aside class="sidebar-widget bg-white shadow-sm p-4 rounded text-dark">
+                    <!-- Widget 1: Search -->
+                    <div class="widget-item mb-5">
+                        <h4 class="widget-title border-bottom-danger-3 pb-2 mb-3 fw-bold text-uppercase">Tìm kiếm</h4>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm câu lạc bộ...">
+                            <button class="btn btn-danger" type="button"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Widget 2: Categories -->
+                    <div class="widget-item">
+                        <h4 class="widget-title border-bottom-danger-3 pb-2 mb-3 fw-bold text-uppercase">Danh mục</h4>
+                        <ul class="list-unstyled sidebar-category-list">
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="/cau-lac-bo" class="text-decoration-none text-dark hover-danger fw-medium">Câu lạc bộ</a>
+                                <span class="text-muted">(6)</span>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="#" class="text-decoration-none text-dark hover-danger fw-medium">Khuyến mãi</a>
+                                <span class="text-muted">(1)</span>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="#" class="text-decoration-none text-dark hover-danger fw-medium">Kiến thức dinh dưỡng</a>
+                                <span class="text-muted">(4)</span>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom d-flex justify-content-between">
+                                <a href="/lop-hoc" class="text-decoration-none text-dark hover-danger fw-medium">Thư viện bài tập</a>
+                                <span class="text-muted">(45)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>

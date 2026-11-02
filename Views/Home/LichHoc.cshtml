@@ -1,0 +1,114 @@
+@model List<MMA.Models.ScheduleSlotModel>
+@{
+    ViewData["Title"] = "Lịch học - Thời khóa biểu lớp học";
+    var daysOfWeek = new[] { "MON", "TUE", "WED", "THUR", "FRI", "SAT", "SUN" };
+}
+
+<!-- Entry Banner Section -->
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Lịch học</h1>
+        <div class="breadcrumb-area">
+            <a href="/">MMA Sài Gòn</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">Lịch học</span>
+        </div>
+    </div>
+</section>
+
+<!-- Timetable Schedule Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="subtitle-badge">Thời khóa biểu</span>
+            <h2 class="section-heading-title mb-3">Lịch Tập Luyện Hàng Tuần</h2>
+            <p class="text-muted max-w-600 mx-auto">Chọn bộ môn bạn quan tâm để xem chi tiết giờ học và thông tin huấn luyện viên đứng lớp.</p>
+        </div>
+
+        <!-- Tab Filters -->
+        <div class="schedule-tab-filters mb-4">
+            <ul class="nav nav-pills justify-content-center gap-2 flex-wrap" id="scheduleTabs">
+                <li class="nav-item">
+                    <button class="nav-link active fw-bold text-uppercase px-3 py-2" data-filter="all">Tất cả môn</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2 bg-danger text-white border-danger" data-filter="mma"><i class="fas fa-shield-halved me-1"></i> MMA</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="boxing"><i class="fas fa-hand-fist me-1"></i> Boxing</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="muay"><i class="fas fa-shield-cat me-1"></i> Muay Thái</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="fitness"><i class="fas fa-dumbbell me-1"></i> Fitness</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="cycling"><i class="fas fa-bicycle me-1"></i> Cycling</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="pt"><i class="fas fa-user-gear me-1"></i> Personal Trainer</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="yoga-an"><i class="fas fa-spa me-1"></i> Yoga Ấn</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="yoga-viet"><i class="fas fa-yin-yang me-1"></i> Yoga Việt</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-bold text-uppercase px-3 py-2" data-filter="zumba"><i class="fas fa-drum me-1"></i> Zumba</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Timetable Grid -->
+        <div class="table-responsive shadow-sm rounded border border-light">
+            <table class="table table-bordered schedule-table text-center m-0 align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="time-header-col">Khung giờ</th>
+                        <th>Thứ Hai</th>
+                        <th>Thứ Ba</th>
+                        <th>Thứ Tư</th>
+                        <th>Thứ Năm</th>
+                        <th>Thứ Sáu</th>
+                        <th>Thứ Bảy</th>
+                        <th>Chủ Nhật</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slot in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold time-cell bg-light">@slot.TimeSlot</td>
+                            @foreach (var day in daysOfWeek)
+                            {
+                                var matchingItems = slot.Items.FindAll(i => i.Day == day);
+                                if (matchingItems.Count > 0)
+                                {
+                                    <td>
+                                        @foreach (var item in matchingItems)
+                                        {
+                                            <div class="schedule-slot-item @item.ColorClass animate-fade-in mb-2 last-mb-0" data-class="@item.ClassType">
+                                                <span class="slot-time">@item.Duration</span>
+                                                <h4 class="slot-title">@item.ClassName</h4>
+                                                @if (!string.IsNullOrEmpty(item.TrainerName))
+                                                {
+                                                    <span class="slot-pt">HLV: @item.TrainerName</span>
+                                                }
+                                            </div>
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="empty-slot">-</td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

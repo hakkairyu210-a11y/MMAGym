@@ -1,0 +1,108 @@
+@model MMA.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Liên hệ - Kết nối cùng MMA";
+}
+
+<!-- Entry Banner Section -->
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Liên hệ</h1>
+        <div class="breadcrumb-area">
+            <a href="/">MMA Sài Gòn</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">Liên hệ</span>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form & Info Columns Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Column: Contact info and branch details -->
+            <div class="col-lg-6 col-md-12 text-dark">
+                <span class="subtitle-badge">Liên hệ tư vấn</span>
+                <h2 class="section-heading-title mb-4">Chúng Tôi Luôn Sẵn Sàng <br><span class="text-danger">Đồng Hành Cùng Bạn</span></h2>
+                <p class="text-muted text-justify mb-5">
+                    MMA là hệ thống phòng tập chuyên sâu về Gym, Boxing, Muay Thai và Yoga, lấy kết quả thật và sự đồng hành làm cốt lõi. Chúng tôi không chỉ là nơi tập luyện, mà là nơi giúp bạn kiến tạo lại thể chất, ý chí và phong cách sống thông qua hành trình rèn luyện bền vững.
+                </p>
+
+                <div class="row g-4">
+                    <!-- Branch addresses -->
+                    <div class="col-md-6">
+                        <div class="contact-info-block mb-4">
+                            <h4 class="info-block-title fw-bold text-dark border-bottom-danger-2 pb-2 mb-3 text-uppercase">Hệ thống chi nhánh</h4>
+                            <ul class="list-unstyled contact-info-list text-muted text-sm">
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>Nhà thi đấu Rạch Miễu, 1 Đ. Hoa Phượng, Phú Nhuận</li>
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>23 Dương Quang Đông, Phường Chánh Hưng, Q8</li>
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>Topaz City Block B2, 39 Cao Lỗ, Chánh Hưng, Q8</li>
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>105 Đ. Lý Chiêu Hoàng, Khu V, Bình Phú, Q6</li>
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>360 Hai Bà Trưng, Tân Định, Quận 1</li>
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>448 Tân Sơn Nhì, Phường Phú Thọ Hòa, Tân Phú</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Open Hours & Additions -->
+                    <div class="col-md-6">
+                        <div class="contact-info-block mb-4">
+                            <h4 class="info-block-title fw-bold text-dark border-bottom-danger-2 pb-2 mb-3 text-uppercase">Giờ hoạt động</h4>
+                            <p class="text-muted text-sm mb-1"><strong>Thứ 2 đến thứ 7:</strong><br>05:30 sáng — 21:30 tối</p>
+                            <p class="text-muted text-sm mb-4"><strong>Chủ nhật:</strong><br>Có thể thay đổi tùy thời điểm</p>
+
+                            <h4 class="info-block-title fw-bold text-dark border-bottom-danger-2 pb-2 mb-3 text-uppercase">Thông tin thêm</h4>
+                            <p class="text-muted text-sm mb-1"><i class="fas fa-phone-alt text-danger me-2"></i>Hotline: <a href="tel:0947054075" class="text-dark fw-bold text-decoration-none">0947 054 075</a></p>
+                            <p class="text-muted text-sm mb-0"><i class="fas fa-envelope text-danger me-2"></i>Email: mmasaigon@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <!-- Social Medias -->
+                    <div class="col-12">
+                        <div class="contact-info-block">
+                            <h4 class="info-block-title fw-bold text-dark border-bottom-danger-2 pb-2 mb-3 text-uppercase">Theo dõi MMA</h4>
+                            <div class="d-flex gap-3">
+                                <a href="https://www.facebook.com/share/1CHALPwMz8/?mibextid=wwXIfr" target="_blank" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.instagram.com/hug.mahn/" target="_blank" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Registration / Contact Form -->
+            <div class="col-lg-6 col-md-12 text-dark">
+                <div class="contact-form-wrapper bg-white shadow-sm p-4 p-md-5 rounded">
+                    <h3 class="fw-bold mb-4 text-dark text-uppercase text-center">Giúp MMA hiểu bạn hơn</h3>
+                    <div class="mx-auto bg-danger mb-4" style="height: 3px; width: 60px;"></div>
+
+                    <form asp-action="LienHe" method="post" class="needs-validation" novalidate>
+                        <!-- Name Input -->
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label text-muted fw-bold text-xs text-uppercase tracking-wider">Họ và tên *</label>
+                            <input asp-for="Name" class="form-control form-control-lg bg-light border-0 focus-danger" placeholder="Vui lòng điền họ tên của bạn">
+                            <span asp-validation-for="Name" class="field-validation-error text-danger text-sm"></span>
+                        </div>
+
+                        <!-- Email Input -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label text-muted fw-bold text-xs text-uppercase tracking-wider">Địa chỉ Email</label>
+                            <input asp-for="Email" type="email" class="form-control form-control-lg bg-light border-0 focus-danger" placeholder="Email của bạn (không bắt buộc)">
+                            <span asp-validation-for="Email" class="field-validation-error text-danger text-sm"></span>
+                        </div>
+
+                        <!-- Phone Input -->
+                        <div class="mb-4">
+                            <label asp-for="Phone" class="form-label text-muted fw-bold text-xs text-uppercase tracking-wider">Số điện thoại *</label>
+                            <input asp-for="Phone" class="form-control form-control-lg bg-light border-0 focus-danger" placeholder="Vui lòng nhập số điện thoại">
+                            <span asp-validation-for="Phone" class="field-validation-error text-danger text-sm"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-danger header-cta-btn w-100 text-uppercase py-3">Đăng ký tư vấn ngay</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

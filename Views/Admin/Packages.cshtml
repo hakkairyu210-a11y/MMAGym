@@ -1,0 +1,166 @@
+@model List<MMA.Models.Entities.GoiTapEntity>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Gói Tập Membership";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-white mb-1"><i class="fas fa-box-archive text-danger me-2"></i>Quản Lý Các Gói Tập & Thẻ Membership</h3>
+        <p class="text-white-50 text-xs mb-0">Thêm mới, chỉnh sửa giá tiền, thời hạn và xóa các gói tập hiển thị trên hệ thống.</p>
+    </div>
+    <button type="button" class="btn btn-danger btn-sm fw-bold px-3 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#createPackageModal">
+        <i class="fas fa-plus me-1"></i> Thêm Gói Tập Mới
+    </button>
+</div>
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+@if (TempData["AdminError"] != null)
+{
+    <div class="alert alert-danger bg-danger bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-exclamation-triangle me-2"></i>@TempData["AdminError"]
+    </div>
+}
+
+<div class="row g-4 mb-4">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-md-6">
+            <div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm h-100 position-relative overflow-hidden hover-border-danger">
+                <div class="card-body p-4 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-danger text-white text-xs px-3 py-1.5 rounded-pill"><i class="fas fa-clock me-1"></i>Thời hạn: @item.ThoiHanThang Tháng</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary border-0 text-white-50" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow">
+                                <li>
+                                    <button type="button" class="dropdown-item text-warning" onclick="openEditPkgModal('@item.MaGoi', '@item.TenGoi', '@item.GiaTien', '@item.ThoiHanThang', '@item.MoTa')">
+                                        <i class="fas fa-edit me-2"></i>Chỉnh Sửa
+                                    </button>
+                                </li>
+                                <li><hr class="dropdown-divider border-secondary"></li>
+                                <li>
+                                    <form asp-controller="Admin" asp-action="DeletePackage" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa gói tập này?')">
+                                        <input type="hidden" name="maGoi" value="@item.MaGoi" />
+                                        <button type="submit" class="dropdown-item text-danger"><i class="fas fa-trash-can me-2"></i>Xóa Gói Tập</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold text-white mb-2">@item.TenGoi</h4>
+                    <div class="display-6 fw-black text-danger mb-3">@item.GiaTien.ToString("N0") <span class="fs-6 text-white-50">VNĐ</span></div>
+                    <p class="text-white-50 text-xs flex-grow-1 mb-4">@item.MoTa</p>
+
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-warning btn-sm text-xs w-50 fw-bold" onclick="openEditPkgModal('@item.MaGoi', '@item.TenGoi', '@item.GiaTien', '@item.ThoiHanThang', '@item.MoTa')">
+                            <i class="fas fa-edit me-1"></i> Sửa Giá & Thông Tin
+                        </button>
+                        <form asp-controller="Admin" asp-action="DeletePackage" method="POST" class="w-50" onsubmit="return confirm('Xác nhận xóa gói tập này?')">
+                            <input type="hidden" name="maGoi" value="@item.MaGoi" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm text-xs w-100 fw-bold"><i class="fas fa-trash me-1"></i> Xóa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal Thêm Gói Tập Mới -->
+<div class="modal fade" id="createPackageModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-plus text-danger me-2"></i>Thêm Gói Tập Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="CreatePackage" method="POST">
+                <div class="modal-body p-4 text-xs">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Tên Gói Tập *</label>
+                        <input type="text" name="TenGoi" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: Gói 12 Tháng VIP" required>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Giá Tiền (VNĐ) *</label>
+                            <input type="number" name="GiaTien" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 7990000" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Thời Hạn (Tháng) *</label>
+                            <input type="number" name="ThoiHanThang" class="form-control bg-black text-white border-secondary" value="3" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Mô Tả & Ưu Đãi Gói Tập</label>
+                        <textarea name="MoTa" rows="3" class="form-control bg-black text-white border-secondary" placeholder="Mô tả các quyền lợi, tặng phẩm đi kèm..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold"><i class="fas fa-check me-1"></i> Thêm Gói Tập</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sửa Gói Tập -->
+<div class="modal fade" id="editPackageModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-pen-to-square text-warning me-2"></i>Chỉnh Sửa Gói Tập</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="EditPackage" method="POST">
+                <input type="hidden" name="MaGoi" id="editPkgId" />
+                <div class="modal-body p-4 text-xs">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Tên Gói Tập *</label>
+                        <input type="text" name="TenGoi" id="editPkgName" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Giá Tiền (VNĐ) *</label>
+                            <input type="number" name="GiaTien" id="editPkgPrice" class="form-control bg-black text-white border-secondary" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Thời Hạn (Tháng) *</label>
+                            <input type="number" name="ThoiHanThang" id="editPkgDuration" class="form-control bg-black text-white border-secondary" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Mô Tả & Ưu Đãi Gói Tập</label>
+                        <textarea name="MoTa" id="editPkgDesc" rows="3" class="form-control bg-black text-white border-secondary"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold text-dark"><i class="fas fa-save me-1"></i> Lưu Thay Đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditPkgModal(id, name, price, duration, desc) {
+        document.getElementById('editPkgId').value = id;
+        document.getElementById('editPkgName').value = name;
+        document.getElementById('editPkgPrice').value = price;
+        document.getElementById('editPkgDuration').value = duration;
+        document.getElementById('editPkgDesc').value = desc;
+
+        var modal = new bootstrap.Modal(document.getElementById('editPackageModal'));
+        modal.show();
+    }
+</script>

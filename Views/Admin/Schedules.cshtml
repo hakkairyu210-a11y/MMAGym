@@ -1,0 +1,209 @@
+@model List<MMA.Models.Entities.LichTapEntity>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Lịch Tập & Thời Khóa Biểu";
+}
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="text-white-50 text-sm mb-0">Thiết lập thời khóa biểu các ca học trong tuần cho các môn MMA, Boxing, Muay Thái, Yoga và Fitness.</p>
+    </div>
+    <button type="button" class="btn btn-danger text-uppercase fw-bold px-3 py-2 text-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#createScheduleModal">
+        <i class="fas fa-plus me-2"></i>Thêm Ca Học Mới
+    </button>
+</div>
+
+<!-- Schedules Management Table -->
+<div class="card bg-dark border-secondary border-opacity-25 rounded-4 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover mb-0 text-sm align-middle">
+                <thead class="table-secondary text-uppercase text-xs text-white-50">
+                    <tr>
+                        <th class="ps-4">Thứ trong tuần</th>
+                        <th>Khung giờ ca học</th>
+                        <th>Môn học / Lớp</th>
+                        <th>Huấn luyện viên phụ trách</th>
+                        <th>Thời gian chi tiết</th>
+                        <th class="pe-4 text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-white">
+                                    <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 text-xs px-2.5 py-1">@item.ThuTrongTuan</span>
+                                </td>
+                                <td><span class="text-warning fw-bold">@item.KhungGio</span></td>
+                                <td>
+                                    <span class="fw-bold text-white">@item.TenLop</span>
+                                </td>
+                                <td><span class="text-white-50">@item.TenHLV</span></td>
+                                <td><span class="font-monospace text-xs text-light">@item.ThoiGianChiTiet</span></td>
+                                <td class="pe-4 text-end">
+                                    <button type="button" class="btn btn-sm btn-outline-info text-xs me-1" onclick="openEditSchedule('@item.MaLich', '@item.ThuTrongTuan', '@item.KhungGio', '@item.TenLop', '@item.TenHLV', '@item.ThoiGianChiTiet')">
+                                        <i class="fas fa-edit me-1"></i> Sửa
+                                    </button>
+                                    <form asp-controller="Admin" asp-action="DeleteSchedule" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa ca học này?');">
+                                        <input type="hidden" name="id" value="@item.MaLich" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i> Xóa</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="ps-4 fw-bold text-white"><span class="badge bg-danger">MON</span></td>
+                            <td>09:00 AM</td>
+                            <td>Fitness & Body Building</td>
+                            <td>HLV Thể Lực</td>
+                            <td>09:00 - 10:00</td>
+                            <td class="pe-4 text-end">
+                                <button class="btn btn-sm btn-outline-info me-1 text-xs"><i class="fas fa-edit me-1"></i> Sửa</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thêm Ca Học Mới -->
+<div class="modal fade" id="createScheduleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-calendar-plus text-danger me-2"></i>Thêm Ca Học Lịch Tập Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="CreateSchedule" method="POST">
+                <div class="modal-body p-4">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-sm text-white-50">Thứ trong tuần *</label>
+                            <select name="ThuTrongTuan" class="form-select bg-black text-white border-secondary" required>
+                                <option value="MON">Thứ 2 (MON)</option>
+                                <option value="TUE">Thứ 3 (TUE)</option>
+                                <option value="WED">Thứ 4 (WED)</option>
+                                <option value="THUR">Thứ 5 (THUR)</option>
+                                <option value="FRI">Thứ 6 (FRI)</option>
+                                <option value="SAT">Thứ 7 (SAT)</option>
+                                <option value="SUN">Chủ nhật (SUN)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-sm text-white-50">Khung giờ ca *</label>
+                            <select name="KhungGio" class="form-select bg-black text-white border-secondary" required>
+                                <option value="09:00 AM">Sáng (09:00 AM)</option>
+                                <option value="18:00 PM">Tối (06:00 PM)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Tên môn / Lớp học *</label>
+                        <input type="text" name="TenLop" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: MMA Thực Chiến" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Huấn luyện viên phụ trách *</label>
+                        <input type="text" name="TenHLV" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: Văn Bá Huyên" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Thời gian chi tiết ca *</label>
+                        <input type="text" name="ThoiGianChiTiet" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 18:00 - 19:30" value="18:00 - 19:30" required>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold text-uppercase">Lưu Ca Học</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sửa Ca Học -->
+<div class="modal fade" id="editScheduleModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-edit text-warning me-2"></i>Chỉnh Sửa Ca Học Lịch Tập</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="EditSchedule" method="POST">
+                <input type="hidden" name="MaLich" id="editSchedId" />
+                <div class="modal-body p-4">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-sm text-white-50">Thứ trong tuần *</label>
+                            <select name="ThuTrongTuan" id="editSchedDay" class="form-select bg-black text-white border-secondary" required>
+                                <option value="MON">Thứ 2 (MON)</option>
+                                <option value="TUE">Thứ 3 (TUE)</option>
+                                <option value="WED">Thứ 4 (WED)</option>
+                                <option value="THUR">Thứ 5 (THUR)</option>
+                                <option value="FRI">Thứ 6 (FRI)</option>
+                                <option value="SAT">Thứ 7 (SAT)</option>
+                                <option value="SUN">Chủ nhật (SUN)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-sm text-white-50">Khung giờ ca *</label>
+                            <select name="KhungGio" id="editSchedSlot" class="form-select bg-black text-white border-secondary" required>
+                                <option value="09:00 AM">Sáng (09:00 AM)</option>
+                                <option value="18:00 PM">Tối (06:00 PM)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Tên môn / Lớp học *</label>
+                        <input type="text" name="TenLop" id="editSchedClass" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Huấn luyện viên phụ trách *</label>
+                        <input type="text" name="TenHLV" id="editSchedTrainer" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Thời gian chi tiết ca *</label>
+                        <input type="text" name="ThoiGianChiTiet" id="editSchedTime" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold text-uppercase">Cập Nhật Ca Học</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditSchedule(id, day, slot, className, trainer, timeDetail) {
+        document.getElementById('editSchedId').value = id;
+        document.getElementById('editSchedDay').value = day;
+        document.getElementById('editSchedSlot').value = slot;
+        document.getElementById('editSchedClass').value = className;
+        document.getElementById('editSchedTrainer').value = trainer;
+        document.getElementById('editSchedTime').value = timeDetail;
+
+        var modal = new bootstrap.Modal(document.getElementById('editScheduleModal'));
+        modal.show();
+    }
+</script>

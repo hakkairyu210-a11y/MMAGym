@@ -1,0 +1,193 @@
+@model MMA.Models.TrainerModel
+@{
+    ViewData["Title"] = $"{Model.Name} - Chi Tiết Huấn Luyện Viên | MMA Sài Gòn";
+}
+
+<!-- Entry Banner Section -->
+<section class="entry-banner">
+    <div class="container">
+        <h1 class="entry-title">Hồ Sơ Huấn Luyện Viên</h1>
+        <div class="breadcrumb-area">
+            <a href="/">Trang Chủ</a>
+            <span class="dvdr">-</span>
+            <a href="/huan-luyen-vien">Huấn Luyện Viên</a>
+            <span class="dvdr">-</span>
+            <span class="current-item">@Model.Name</span>
+        </div>
+    </div>
+</section>
+
+<!-- Main Trainer Detail Section -->
+<section class="section-padding bg-black text-white position-relative overflow-hidden">
+    <!-- Subtle Background Glow Effects -->
+    <div class="position-absolute top-0 start-0 translate-middle w-50 h-50 bg-danger opacity-10 rounded-circle blur-3xl pointer-events-none"></div>
+    <div class="position-absolute bottom-0 end-0 translate-middle w-50 h-50 bg-danger opacity-10 rounded-circle blur-3xl pointer-events-none"></div>
+
+    <div class="container position-relative z-1">
+        <div class="row g-5">
+            <!-- Left Side: Avatar Card & Quick Stats -->
+            <div class="col-lg-4">
+                <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 text-center shadow-lg sticky-lg-top" style="top: 100px;">
+                    <div class="position-relative d-inline-block mx-auto mb-4">
+                        <img src="@Model.ImageUrl" class="rounded-circle border border-4 border-danger p-1 shadow-lg" style="width: 180px; height: 180px; object-fit: cover;" alt="@Model.Name">
+                        <span class="position-absolute bottom-0 end-0 badge bg-danger text-white rounded-circle p-2 border border-2 border-dark" title="HLV Chuyên Nghiệp">
+                            <i class="fas fa-certificate fs-6"></i>
+                        </span>
+                    </div>
+
+                    <h3 class="fw-black text-white mb-1">@Model.Name</h3>
+                    <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-3 py-1.5 rounded-pill mb-3 text-sm">@Model.Role</span>
+
+                    <p class="text-white-50 text-xs mb-4">@Model.Bio</p>
+
+                    <!-- Quick Stats Grid -->
+                    <div class="row g-2 mb-4 text-start">
+                        <div class="col-6">
+                            <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25 h-100">
+                                <div class="text-xs text-white-50 text-uppercase fw-bold mb-1"><i class="fas fa-medal text-warning me-1"></i> Kinh Nghiệm</div>
+                                <div class="fs-4 fw-black text-danger">@Model.ExperienceYears+ Năm</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25 h-100">
+                                <div class="text-xs text-white-50 text-uppercase fw-bold mb-1"><i class="fas fa-users text-info me-1"></i> Hội Viên</div>
+                                <div class="fs-4 fw-black text-info">500+</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Networks -->
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle text-white p-2" style="width: 38px; height: 38px;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle text-white p-2" style="width: 38px; height: 38px;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle text-white p-2" style="width: 38px; height: 38px;"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle text-white p-2" style="width: 38px; height: 38px;"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+
+                    <!-- Action Button -->
+                    <a href="/#register-section" class="btn btn-danger btn-lg w-100 fw-bold text-uppercase shadow-lg py-3">
+                        <i class="fas fa-dumbbell me-2"></i> Đăng Ký Tập 1-1 Cùng HLV
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side: Detailed Professional Info -->
+            <div class="col-lg-8">
+                <!-- Section 1: Overview & Philosophy -->
+                <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 p-md-5 mb-4 shadow-lg">
+                    <h4 class="fw-bold text-white mb-3 d-flex align-items-center">
+                        <i class="fas fa-user-shield text-danger me-3 fs-3"></i>
+                        Giới Thiệu & Triết Lý Huấn Luyện
+                    </h4>
+                    <p class="text-white-50 leading-relaxed mb-4 fs-6">
+                        HLV <strong>@Model.Name</strong> là một trong những huấn luyện viên nòng cốt tại hệ thống MMA Sài Gòn. Với kinh nghiệm hơn <strong>@Model.ExperienceYears năm</strong> trong lĩnh vực thể thao và võ thuật đỉnh cao, HLV luôn áp dụng các giáo án tập luyện chuẩn quốc tế kết hợp cùng dinh dưỡng khoa học để giúp hội viên bứt phá giới hạn bản thân nhanh nhất.
+                    </p>
+                    <div class="p-4 bg-black rounded-3 border-start border-4 border-danger">
+                        <blockquote class="blockquote text-white fst-italic mb-0 text-sm">
+                            "Võ thuật không chỉ là đấm đá, mà là kỷ luật bản thân, sự kiên trì và tinh thần không bao giờ bỏ cuộc."
+                        </blockquote>
+                        <div class="text-end text-xs text-white-50 mt-2">— HLV @Model.Name</div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Specialization & Certificates -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 h-100 shadow-sm">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="badge bg-danger bg-opacity-25 text-danger p-3 rounded-3 me-3 fs-4">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <h5 class="fw-bold text-white mb-0">Bộ Môn Chuyên Sâu</h5>
+                            </div>
+                            <p class="text-white-50 text-sm mb-3">Các lĩnh vực đào tạo thế mạnh của HLV:</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var spec in (Model.Specialties ?? "MMA, Boxing").Split(new[] { ',', '&' }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <span class="badge bg-black text-warning border border-warning border-opacity-50 px-3 py-2 text-xs rounded-pill">
+                                        <i class="fas fa-check-circle me-1"></i>@spec.Trim()
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 h-100 shadow-sm">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="badge bg-success bg-opacity-25 text-success p-3 rounded-3 me-3 fs-4">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h5 class="fw-bold text-white mb-0">Bằng Cấp & Chứng Chỉ</h5>
+                            </div>
+                            <p class="text-white-50 text-sm mb-2">Chứng chỉ quốc gia & quốc tế được chứng nhận:</p>
+                            <div class="p-3 bg-black rounded-3 border border-secondary border-opacity-25 text-success fw-bold text-sm">
+                                <i class="fas fa-award text-warning me-2"></i>@Model.Certificates
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Training Process / Benefits -->
+                <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 p-md-5 mb-4 shadow-lg">
+                    <h4 class="fw-bold text-white mb-4 d-flex align-items-center">
+                        <i class="fas fa-fire text-warning me-3 fs-3"></i>
+                        Quyền Lợi Khi Tập 1-1 Cùng HLV @Model.Name
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                                <i class="fas fa-clipboard-user text-danger fs-4 me-3 mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold text-white mb-1">Lộ Trình Độc Quyền 1-1</h6>
+                                    <p class="text-white-50 text-xs mb-0">Thiết kế bài tập riêng biệt theo thể trạng và mục tiêu cá nhân (Giảm cân, Tăng cơ, Tự vệ).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                                <i class="fas fa-apple-whole text-success fs-4 me-3 mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold text-white mb-1">Tư Vấn Dinh Dưỡng Chuẩn</h6>
+                                    <p class="text-white-50 text-xs mb-0">Tính toán Macros, TDEE, Calorie In/Out hàng tuần để đạt vóc dáng ước mơ.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                                <i class="fas fa-clock-rotate-left text-info fs-4 me-3 mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold text-white mb-1">Thời Gian Linh Hoạt</h6>
+                                    <p class="text-white-50 text-xs mb-0">Dễ dàng sắp xếp khung giờ tập phù hợp với lịch làm việc của riêng bạn.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start p-3 bg-black rounded-3 border border-secondary border-opacity-25">
+                                <i class="fas fa-shield-heart text-warning fs-4 me-3 mt-1"></i>
+                                <div>
+                                    <h6 class="fw-bold text-white mb-1">Kỹ Thuật Chuẩn Võ Thuật</h6>
+                                    <p class="text-white-50 text-xs mb-0">Sửa từng tư thế đấm, đá, né đòn để tránh chấn thương và tối ưu hiệu quả.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Schedule & CTA Banner -->
+                <div class="card bg-gradient-dark border-danger border-opacity-50 rounded-4 p-4 text-center shadow-lg position-relative overflow-hidden">
+                    <h3 class="fw-black text-white mb-2">Sẵn Sàng Thay Đổi Vóc Dáng Cùng HLV @Model.Name?</h3>
+                    <p class="text-white-50 text-sm mb-4">Đăng ký ngay hôm nay để nhận 01 buổi đo InBody & Tư vấn lộ trình tập luyện hoàn toàn miễn phí!</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="/#register-section" class="btn btn-danger btn-lg fw-bold text-uppercase px-4 shadow">
+                            <i class="fas fa-paper-plane me-2"></i>Đăng Ký Ngay
+                        </a>
+                        <a href="/lien-he" class="btn btn-outline-light btn-lg fw-bold text-uppercase px-4">
+                            <i class="fas fa-phone me-2"></i>Tư Vấn Miễn Phí
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

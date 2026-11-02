@@ -1,0 +1,115 @@
+@model MMA.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Đăng nhập - MMA Sài Gòn";
+}
+
+<style>
+    /* Hide native browser password eye button to prevent 2 eye icons */
+    input[type="password"]::-ms-reveal,
+    input[type="password"]::-ms-clear,
+    input[type="password"]::-webkit-contacts-auto-fill-button,
+    input[type="password"]::-webkit-credentials-auto-fill-button {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+</style>
+
+<section class="section-padding bg-dark text-white min-vh-100 d-flex align-items-center auth-section">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                <div class="auth-card p-4 p-md-5 rounded-4 shadow-lg border border-secondary border-opacity-25 bg-dark-glass">
+                    <div class="text-center mb-4">
+                        <div class="auth-logo-badge mb-3 mx-auto rounded-circle d-flex align-items-center justify-content-center bg-danger text-white fs-3 shadow-lg" style="width: 65px; height: 65px;">
+                            <i class="fas fa-user-lock"></i>
+                        </div>
+                        <h2 class="fw-black text-uppercase text-white mb-1">Đăng Nhập Tài Khoản</h2>
+                        <p class="text-muted text-sm mb-0">Hệ thống quản lý & hội viên MMA Sài Gòn</p>
+                    </div>
+
+                    @if (TempData["LoginSuccess"] != null)
+                    {
+                        <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 text-xs mb-4 p-3 rounded-3 shadow-sm">
+                            <i class="fas fa-check-circle me-2 fs-6"></i>@TempData["LoginSuccess"]
+                        </div>
+                    }
+
+                    @if (TempData["LoginError"] != null)
+                    {
+                        <div class="alert alert-danger bg-danger bg-opacity-25 text-white border-0 text-xs mb-4 p-3 rounded-3 shadow-sm">
+                            <i class="fas fa-exclamation-circle me-2 fs-6"></i>@TempData["LoginError"]
+                        </div>
+                    }
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger bg-danger bg-opacity-25 text-white border-0 text-xs mb-4 p-3 rounded-3 shadow-sm" style="display: @(ViewData.ModelState.IsValid ? "none" : "block")"></div>
+
+                    <form asp-controller="Account" asp-action="Login" method="POST">
+                        <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                        <!-- Tên đăng nhập / Email -->
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label text-sm fw-semibold text-light">Nhập tên tài khoản hoặc Gmail *</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark text-white-50 border-secondary border-opacity-50"><i class="fas fa-user"></i></span>
+                                <input asp-for="Email" class="form-control bg-dark text-white border-secondary border-opacity-50" placeholder="Nhập tên tài khoản hoặc Gmail để đăng nhập" required id="loginEmailInput" autocomplete="username">
+                            </div>
+                            <span asp-validation-for="Email" class="field-validation-error text-danger text-xs mt-1 d-block"></span>
+                        </div>
+
+                        <!-- Mật khẩu + Nút con mắt xem mật khẩu duy nhất -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label asp-for="Password" class="form-label text-sm fw-semibold text-light mb-0">Mật khẩu *</label>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark text-white-50 border-secondary border-opacity-50"><i class="fas fa-key"></i></span>
+                                <input asp-for="Password" type="password" class="form-control bg-dark text-white border-secondary border-opacity-50" placeholder="••••••••" required id="loginPasswordInput" autocomplete="current-password">
+                                <button type="button" class="btn btn-outline-secondary border-secondary border-opacity-50 text-white-50 px-3" onclick="togglePasswordVisibility('loginPasswordInput', 'pwdEyeIcon')" title="Hiện/Ẩn mật khẩu">
+                                    <i class="fas fa-eye" id="pwdEyeIcon"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="field-validation-error text-danger text-xs mt-1 d-block"></span>
+                        </div>
+
+                        <!-- Ghi nhớ mật khẩu Checkbox -->
+                        <div class="mb-4 d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" class="form-check-input bg-dark border-secondary cursor-pointer" id="rememberMeCheck">
+                                <label asp-for="RememberMe" class="form-check-label text-sm text-white-50 cursor-pointer" for="rememberMeCheck">Ghi nhớ mật khẩu (30 ngày)</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger w-100 py-3 text-uppercase fw-bold shadow-lg tracking-wider mb-3 fs-6">
+                            <i class="fas fa-right-to-bracket me-2"></i> Đăng nhập ngay
+                        </button>
+                    </form>
+
+                    <div class="text-center text-sm text-white-50 pt-3 border-top border-secondary border-opacity-25">
+                        Chưa có tài khoản hội viên? 
+                        <a href="/dang-ky" class="text-danger fw-bold text-decoration-none ms-1">Đăng ký tài khoản mới ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function togglePasswordVisibility(inputId, iconId) {
+        var pwdInput = document.getElementById(inputId);
+        var eyeIcon = document.getElementById(iconId);
+
+        if (pwdInput.type === "password") {
+            pwdInput.type = "text";
+            eyeIcon.classList.remove("fa-eye");
+            eyeIcon.classList.add("fa-eye-slash");
+            eyeIcon.classList.add("text-danger");
+        } else {
+            pwdInput.type = "password";
+            eyeIcon.classList.remove("fa-eye-slash");
+            eyeIcon.classList.remove("text-danger");
+            eyeIcon.classList.add("fa-eye");
+        }
+    }
+</script>

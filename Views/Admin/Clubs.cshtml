@@ -1,0 +1,156 @@
+@model List<MMA.Models.Entities.ChiNhanhEntity>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản Lý Chi Nhánh / Câu Lạc Bộ";
+}
+
+@if (TempData["AdminSuccess"] != null)
+{
+    <div class="alert alert-success bg-success bg-opacity-25 text-white border-0 mb-4">
+        <i class="fas fa-check-circle me-2"></i>@TempData["AdminSuccess"]
+    </div>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="text-white-50 text-sm mb-0">Hệ thống chi nhánh phòng tập MMA trên địa bàn TP. Hồ Chí Minh.</p>
+    </div>
+    <button type="button" class="btn btn-danger text-uppercase fw-bold px-3 py-2 text-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#createClubModal">
+        <i class="fas fa-plus me-2"></i>Thêm Chi Nhánh Mới
+    </button>
+</div>
+
+<div class="row g-4">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var club in Model)
+        {
+            var img = string.IsNullOrEmpty(club.HinhAnh) ? "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&auto=format&fit=crop&q=80" : club.HinhAnh;
+            <div class="col-lg-4 col-md-6">
+                <div class="card bg-dark border-secondary border-opacity-25 rounded-4 overflow-hidden shadow-sm h-100">
+                    <img src="@img" class="card-img-top" style="height: 180px; object-fit: cover;" alt="@club.TenCN">
+                    <div class="card-body p-4">
+                        <span class="badge bg-danger mb-2">Chi Nhánh Sài Gòn</span>
+                        <h5 class="card-title text-white fw-bold">@club.TenCN</h5>
+                        <p class="card-text text-white-50 text-xs"><i class="fas fa-map-marker-alt text-danger me-2"></i>@club.DiaChi</p>
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
+                            <span class="text-xs text-success"><i class="fas fa-phone me-1"></i>Hotline: @club.Hotline</span>
+                            <div class="d-flex gap-1">
+                                <button type="button" class="btn btn-sm btn-outline-info text-xs" onclick="openEditClub('@club.MaCN', '@club.TenCN', '@club.DiaChi', '@club.Hotline', '@img')">
+                                    <i class="fas fa-edit me-1"></i> Sửa Ảnh & ĐC
+                                </button>
+                                <form asp-controller="Admin" asp-action="DeleteClub" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa chi nhánh này không?');">
+                                    <input type="hidden" name="id" value="@club.MaCN" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger text-xs"><i class="fas fa-trash me-1"></i> Xóa</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-lg-4 col-md-6">
+            <div class="card bg-dark border-secondary border-opacity-25 rounded-4 overflow-hidden shadow-sm h-100">
+                <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&auto=format&fit=crop&q=80" class="card-img-top" style="height: 180px; object-fit: cover;" alt="MMA Dương Quang Đông">
+                <div class="card-body p-4">
+                    <span class="badge bg-danger mb-2">Chi nhánh Quận 8</span>
+                    <h5 class="card-title text-white fw-bold">MMA - Dương Quang Đông</h5>
+                    <p class="card-text text-white-50 text-xs"><i class="fas fa-map-marker-alt text-danger me-2"></i>23 Dương Quang Đông, Phường Chánh Hưng, Q8, TP.HCM</p>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
+                        <span class="text-xs text-success"><i class="fas fa-check-circle me-1"></i>Đang mở cửa</span>
+                        <button class="btn btn-sm btn-outline-secondary text-xs"><i class="fas fa-edit me-1"></i>Chỉnh sửa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal Thêm Chi Nhánh Mới -->
+<div class="modal fade" id="createClubModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-building text-danger me-2"></i>Thêm Chi Nhánh Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="CreateClub" method="POST">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Tên chi nhánh *</label>
+                        <input type="text" name="TenCN" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: MMA Quận 1 - Trần Quang Khải" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Địa chỉ chi tiết *</label>
+                        <input type="text" name="DiaChi" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 68 Trần Quang Khải, Q1, TP.HCM" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Hotline chi nhánh *</label>
+                        <input type="text" name="Hotline" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: 0947054075" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">URL Hình ảnh phòng tập (Tùy chọn)</label>
+                        <input type="url" name="HinhAnh" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: https://images.unsplash.com/photo-...">
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger fw-bold text-uppercase">Lưu Chi Nhánh</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sửa Chi Nhánh -->
+<div class="modal fade" id="editClubModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-dark">
+            <div class="modal-header modal-header-dark py-3">
+                <h5 class="modal-title fw-bold text-white"><i class="fas fa-edit text-warning me-2"></i>Chỉnh Sửa Địa Chỉ & Ảnh Phòng Tập</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-controller="Admin" asp-action="EditClub" method="POST">
+                <input type="hidden" name="MaCN" id="editClubId" />
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Tên chi nhánh *</label>
+                        <input type="text" name="TenCN" id="editClubName" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Địa chỉ chi tiết *</label>
+                        <input type="text" name="DiaChi" id="editClubAddress" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">Hotline chi nhánh *</label>
+                        <input type="text" name="Hotline" id="editClubPhone" class="form-control bg-black text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-sm text-white-50">URL Link Ảnh Phòng Tập *</label>
+                        <input type="url" name="HinhAnh" id="editClubImg" class="form-control bg-black text-white border-secondary" placeholder="Ví dụ: https://images.unsplash.com/photo-...">
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-dark">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-warning fw-bold text-uppercase">Cập Nhật Phòng Tập</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditClub(id, name, address, phone, img) {
+        document.getElementById('editClubId').value = id;
+        document.getElementById('editClubName').value = name;
+        document.getElementById('editClubAddress').value = address;
+        document.getElementById('editClubPhone').value = phone;
+        document.getElementById('editClubImg').value = img || '';
+
+        var modal = new bootstrap.Modal(document.getElementById('editClubModal'));
+        modal.show();
+    }
+</script>
